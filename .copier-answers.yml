@@ -1,0 +1,16 @@
+# Changes here will be overwritten by Copier
+_commit: 2.1.0
+_src_path: gh:DiamondLightSource/python-copier-template
+author_email: stanislaw.malinowski@diamond.ac.uk
+author_name: Stanislaw Malinowski
+component_owner: group:default/sscc
+description: visible light experiments at the ViSR mini-beamline
+distribution_name: visr
+docker: true
+docs_type: README
+git_platform: github.com
+github_org: DiamondLightSource
+package_name: visr
+pypi: true
+repo_name: visr
+type_checker: pyright

@@ -1,0 +1,10 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: visr
+  title: visr
+  description: visible light experiments at the ViSR mini-beamline
+spec:
+  type: documentation
+  lifecycle: experimental
+  owner: group:default/sscc
