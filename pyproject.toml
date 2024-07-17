@@ -11,11 +11,15 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
 ]
 description = "visible light experiments at the ViSR mini-beamline"
-dependencies = [] # Add project dependencies here, e.g. ["click", "numpy"]
+dependencies = [
+    "dls_dodal @ git+https://github.com/DiamondLightSource/dodal",
+    "ophyd_async",
+    "numpy<2.0.0",
+] # Add project dependencies here, e.g. ["click", "numpy"]
 dynamic = ["version"]
 license.file = "LICENSE"
 readme = "README.md"
-requires-python = ">=3.7"
+requires-python = ">=3.10"
 
 [project.optional-dependencies]
 dev = [
