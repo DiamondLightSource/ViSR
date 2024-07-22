@@ -1,6 +1,7 @@
 from pathlib import Path
 from typing import Any
 
+import bluesky.plan_stubs as bps
 import bluesky.preprocessors as bpp
 from dodal.common import MsgGenerator, inject
 from ophyd_async.core import HardwareTriggeredFlyable, StandardDetector
@@ -43,9 +44,8 @@ def basic_plan(
     }
     _md = {
         "detectors": {device.name for device in detectors},
-        "motors": {linkam.name},
+        "motors": {},
         "plan_args": plan_args,
-        # TODO: Can we pass dimensional hint? motors? shape?
         "hints": {},
     }
     _md.update(metadata or {})
@@ -60,7 +60,8 @@ def basic_plan(
     @bpp.stage_decorator(devices)
     @bpp.run_decorator(md=_md)
     def inner_plan():
-        yield from {}
+        yield from bps.trigger_and_read(devices)
+
 
     rs_uid = yield from inner_plan()
     return rs_uid
