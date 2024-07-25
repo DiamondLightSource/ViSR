@@ -52,16 +52,22 @@ davidia - davidia shoudl already do the histogramming
 
 the sum - numpy array?
 
+## pvs
 
+dcam1 or dcam2
 
+<https://gitlab.diamond.ac.uk/controls/containers/beamline/bl01c/-/blob/main/services/bl01c-di-dcam-01/config/ioc.yaml?ref_type=heads>
 
+making aravis camera
+and caget
+<https://gitlab.diamond.ac.uk/controls/containers/beamline/bl01c/-/blob/main/services/bl01c-di-dcam-02/config/ioc.yaml?ref_type=heads>
 
+pattern detector as argument to the count plan
+that will generate stream resource for the data, for the sample
+and it will provide something
 
+reading library that uses h5py
 
+we need to use a pattern generator detector
 
-
-
-
-
-
-
+call a reading library with stream resource

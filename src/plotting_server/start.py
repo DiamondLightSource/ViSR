@@ -7,7 +7,7 @@ from fastapi.responses import StreamingResponse
 import matplotlib.pyplot as plt
 import io
 import asyncio
-from event_model import StreamData, StreamDatum
+# from event_model import StreamData, StreamDatum
 
 app = FastAPI()
 
@@ -84,6 +84,7 @@ b_array = generate_rgb_array()
 interval = 0.6
 # 0.1 to Emit every 100 ms (10 Hz)
 
+
 @app.websocket("/ws/colors")
 async def colors_websocket_endpoint(websocket: WebSocket):
     await websocket.accept()
@@ -109,8 +110,13 @@ async def colors_websocket_endpoint(websocket: WebSocket):
                 for data in [red_data, green_data, blue_data, total_data]:
                     # Send JSON data
                     await websocket.send_json(data)
-                await asyncio.sleep(interval)  
+                await asyncio.sleep(interval)
     except Exception as e:
         print(f"Error: {e}")
     finally:
         await websocket.close()
+
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app)
