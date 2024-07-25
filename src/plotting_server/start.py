@@ -7,7 +7,7 @@ from fastapi.responses import StreamingResponse
 import matplotlib.pyplot as plt
 import io
 import asyncio
-
+from event_model import StreamData, StreamDatum
 
 app = FastAPI()
 
