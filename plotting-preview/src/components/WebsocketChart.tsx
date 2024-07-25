@@ -27,7 +27,8 @@ function WebsocketChart() {
 
     useEffect(() => {
         // Establish WebSocket connection
-        ws.current = new WebSocket('ws://localhost:8000/ws');
+        ws.current = new WebSocket('/ws');
+        console.log(ws.current);
         ws.current.onmessage = (event) => {
             const parsedData = JSON.parse(event.data);
             setData(prevData => {

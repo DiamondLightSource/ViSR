@@ -1,3 +1,5 @@
+import random
+import time
 from fastapi import FastAPI, Response, WebSocket
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse
@@ -12,7 +14,7 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5174"],  # React dev server
+    allow_origins=["http://localhost:5174", "ws://localhost:5174"],  # React dev server
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -43,7 +45,8 @@ async def websocket_endpoint(websocket: WebSocket):
     try:
         while True:
             # Simulating data generation
-            data = {"time": time.time(), "value": random.random()}
+            now = time.time()
+            data = {"time": now, "value": random.random()}
             await websocket.send_json(data)
             await asyncio.sleep(0.1)  # 10 Hz rate
     except Exception as e:
