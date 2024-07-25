@@ -7,8 +7,6 @@ import matplotlib.pyplot as plt
 import io
 import asyncio
 
-app = FastAPI()
-
 
 app = FastAPI()
 
@@ -20,9 +18,11 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
 @app.get("/")
 async def root():
     return {"message": "Hello World"}
+
 
 @app.get("/plot/")
 async def get_plot():
@@ -33,7 +33,7 @@ async def get_plot():
 
     # Save the plot to a BytesIO object
     buf = io.BytesIO()
-    plt.savefig(buf, format='png')
+    plt.savefig(buf, format="png")
     buf.seek(0)
 
     return StreamingResponse(buf, media_type="image/png")
@@ -48,7 +48,7 @@ async def websocket_endpoint(websocket: WebSocket):
             now = time.time()
             data = {"time": now, "value": random.random()}
             await websocket.send_json(data)
-            await asyncio.sleep(0.1)  # 10 Hz rate
+            await asyncio.sleep(0.01)  # 100 Hz rate
     except Exception as e:
         print(f"Error: {e}")
     finally:
