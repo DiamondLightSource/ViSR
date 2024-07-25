@@ -24,6 +24,8 @@ requires-python = ">=3.10"
 [project.optional-dependencies]
 dev = [
     "copier",
+    "ophyd-async",
+    "dodal",
     "pipdeptree",
     "pre-commit",
     "pyright",

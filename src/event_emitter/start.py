@@ -1,6 +1,7 @@
 import stomp
 import time
 from some_event_library import SomeEvent  # Replace with your actual library and event
+from ophyd_async import PatternGenerator
 
 class MyListener(stomp.ConnectionListener):
     def on_error(self, frame):
