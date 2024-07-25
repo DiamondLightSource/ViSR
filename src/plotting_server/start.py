@@ -1,9 +1,9 @@
-from fastapi import FastAPI, Response
-from fastapi import FastAPI
+from fastapi import FastAPI, Response, WebSocket
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse
 import matplotlib.pyplot as plt
 import io
+import asyncio
 
 app = FastAPI()
 
@@ -35,3 +35,18 @@ async def get_plot():
     buf.seek(0)
 
     return StreamingResponse(buf, media_type="image/png")
+
+
+@app.websocket("/ws")
+async def websocket_endpoint(websocket: WebSocket):
+    await websocket.accept()
+    try:
+        while True:
+            # Simulating data generation
+            data = {"time": time.time(), "value": random.random()}
+            await websocket.send_json(data)
+            await asyncio.sleep(0.1)  # 10 Hz rate
+    except Exception as e:
+        print(f"Error: {e}")
+    finally:
+        await websocket.close()

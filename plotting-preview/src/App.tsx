@@ -1,22 +1,24 @@
 import { useState, useEffect } from 'react';
 import './App.css'
 import Plot from './components/Plot'
+import WebsocketChart from './components/WebsocketChart';
 
 function App() {
 
   const [response, setResponse] = useState<string>('');
-
   useEffect(() => {
-    const fetchPlot = async () => {
-      const response = await fetch(`/api`, );
-      const j = await response.json();
-      console.log(j);
-      setResponse(j.message);
+    const fetchHelloWorld = async () => {
+      try {
+        const res = await fetch('/api'); // Fetch the API endpoint
+        const data = await res.json();  // Parse the response as JSON
+        setResponse(data.message);      // Set the response state
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
     };
 
-    fetchPlot();
+    fetchHelloWorld();
   }, []);
-
   return (
     <>
       <h1>Vite + React</h1>
@@ -24,6 +26,7 @@ function App() {
         <p>{response}</p>
       </div>
       <Plot />
+      <WebsocketChart />
     </>
   )
 }
