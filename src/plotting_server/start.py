@@ -56,47 +56,60 @@ async def websocket_endpoint(websocket: WebSocket):
         await websocket.close()
 
 
-
 # Generate 10,000 random integers between 0 and 255
 def generate_rgb_array(size=10000):
     return np.random.randint(0, 256, size=size, dtype=np.uint8)
+
 
 # Initialize RGB arrays
 r_array = generate_rgb_array()
 g_array = generate_rgb_array()
 b_array = generate_rgb_array()
 
+# # Normalize color data
+# r_max = np.max(r_array)
+# g_max = np.max(g_array)
+# b_max = np.max(b_array)
+
+# # Avoid division by zero if max is zero
+# r_max = r_max if r_max != 0 else 1
+# g_max = g_max if g_max != 0 else 1
+# b_max = b_max if b_max != 0 else 1
+
+# # Normalize the arrays
+# r_normalized = r_array / r_max * 255
+# g_normalized = g_array / g_max * 255
+# b_normalized = b_array / b_max * 255
+
+interval = 0.6
+# 0.1 to Emit every 100 ms (10 Hz)
+
 @app.websocket("/ws/colors")
 async def colors_websocket_endpoint(websocket: WebSocket):
     await websocket.accept()
     try:
         while True:
-            # Simulate data generation
-            now = time.time()
-            # Compute total of RGB values
-            r_total = np.sum(r_array)
-            g_total = np.sum(g_array)
-            b_total = np.sum(b_array)
-            total = r_total + g_total + b_total
+            for r, g, b in zip(r_array, g_array, b_array, strict=False):
+                total = r + g + b
 
-            # Generate intensity value as a random 8-bit integer
-            intensity = random.randint(0, 255)
+                # Convert NumPy integers to standard Python integers
+                r = int(r)
+                g = int(g)
+                b = int(b)
+                total = int(total)
+                # todo total will be histagrammed
+                # print(r,g,b)
 
-            # Create JSON data format
-            # todo decide if 1 message parsed on the frontend or 3 different messages
-            data = {
-                "c": {
-                    "r": r_total,
-                    "g": g_total,
-                    "b": b_total,
-                    "total": total
-                },
-                "i": intensity
-            }
+                # Create JSON data format
+                red_data = {"c": "r", "i": r}
+                green_data = {"c": "g", "i": g}
+                blue_data = {"c": "b", "i": b}
+                total_data = {"c": "t", "i": total}
 
-            # Send JSON data
-            await websocket.send_json(data)
-            await asyncio.sleep(0.1)  # Emit every 100 ms (10 Hz)
+                for data in [red_data, green_data, blue_data, total_data]:
+                    # Send JSON data
+                    await websocket.send_json(data)
+                await asyncio.sleep(interval)  
     except Exception as e:
         print(f"Error: {e}")
     finally:

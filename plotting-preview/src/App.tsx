@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import './App.css'
 import Plot from './components/Plot'
 import WebsocketChart from './components/WebsocketChart';
+import ColorsChart from './components/ColorsChart';
 
 function App() {
 
@@ -21,12 +22,13 @@ function App() {
   }, []);
   return (
     <>
-      <h1>Vite + React</h1>
+      {/* <h1>Vite + React</h1>
       <div><h3> hello response:</h3>
         <p>{response}</p>
       </div>
-      <Plot />
-      <WebsocketChart />
+      <Plot /> */}
+      {/* <WebsocketChart /> */}
+      <ColorsChart />
     </>
   )
 }
