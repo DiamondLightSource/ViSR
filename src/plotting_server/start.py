@@ -1,12 +1,14 @@
+import asyncio
+import io
 import random
-import numpy as np
 import time
-from fastapi import FastAPI, Response, WebSocket
+
+import matplotlib.pyplot as plt
+import numpy as np
+from fastapi import FastAPI, WebSocket
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse
-import matplotlib.pyplot as plt
-import io
-import asyncio
+
 # from event_model import StreamData, StreamDatum
 
 app = FastAPI()

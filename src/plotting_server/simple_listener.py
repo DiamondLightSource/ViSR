@@ -1,7 +1,7 @@
-from fastapi import FastAPI, WebSocket
-import stomp
 import json
-from event_model import StreamData, StreamDatum
+
+import stomp
+from fastapi import FastAPI, WebSocket
 
 app = FastAPI()
 clients = set()
@@ -36,8 +36,9 @@ def start_stomp_listener():
     conn.subscribe(destination='/queue/test', id=1, ack='auto')
 
 if __name__ == "__main__":
-    import uvicorn
     from threading import Thread
+
+    import uvicorn
 
     # Start the STOMP listener in a separate thread
     thread = Thread(target=start_stomp_listener)

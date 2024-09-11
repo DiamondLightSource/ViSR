@@ -4,9 +4,8 @@ from typing import Any
 import bluesky.plan_stubs as bps
 import bluesky.preprocessors as bpp
 from dodal.common import MsgGenerator, inject
-from ophyd_async.core import HardwareTriggeredFlyable, StandardDetector
 from ophyd_async.core.device_save_loader import Device, load_device
-from ophyd_async.panda import HDFPanda, StaticSeqTableTriggerLogic
+from ophyd_async.panda import HDFPanda
 
 DEFAULT_WEBCAM = inject("webcam")
 DEFAULT_PANDA = inject("panda1")
