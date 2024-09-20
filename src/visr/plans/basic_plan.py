@@ -61,6 +61,5 @@ def basic_plan(
     def inner_plan():
         yield from bps.trigger_and_read(devices)
 
-
     rs_uid = yield from inner_plan()
     return rs_uid

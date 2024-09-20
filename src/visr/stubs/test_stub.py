@@ -1,4 +1,3 @@
-
 from dodal.common import MsgGenerator
 
 
