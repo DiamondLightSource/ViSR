@@ -6,6 +6,7 @@ import bluesky.preprocessors as bpp
 from dodal.common import MsgGenerator, inject
 from ophyd_async.core.device_save_loader import Device, load_device
 from ophyd_async.panda import HDFPanda
+from ophyd_async.plan_stubs import setup_ndstats_sum
 
 DEFAULT_WEBCAM = inject("webcam")
 DEFAULT_PANDA = inject("panda1")
@@ -55,6 +56,9 @@ def basic_plan(
     load_device(panda, ROOT_CONFIG_SAVES_DIR, panda.__name__)
 
     devices = detectors
+
+    # this is for file writing
+    yield from setup_ndstats_sum(webcam)
 
     @bpp.stage_decorator(devices)
     @bpp.run_decorator(md=_md)
