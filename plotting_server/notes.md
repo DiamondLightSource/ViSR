@@ -1,4 +1,3 @@
-
 # notes
 
 snaking paths, pattern growing on the screen
@@ -71,3 +70,27 @@ reading library that uses h5py
 we need to use a pattern generator detector
 
 call a reading library with stream resource
+
+### detector data
+
+> > > f['entry']['instrument']['detector']['data'].shape
+> > > (4, 1216, 1936)
+> > > f['entry']['instrument']['detector']['data'][:2]
+> > > array([[[1, 1, 1, ..., 1, 1, 1],
+
+        [1, 1, 1, ..., 1, 1, 1],
+        [1, 1, 1, ..., 1, 1, 1],
+        ...,
+        [1, 1, 1, ..., 1, 1, 1],
+        [1, 1, 1, ..., 1, 1, 1],
+        [1, 1, 1, ..., 1, 1, 1]],
+
+       [[1, 1, 1, ..., 1, 1, 1],
+        [1, 1, 1, ..., 1, 1, 1],
+        [1, 1, 1, ..., 1, 1, 1],
+        ...,
+        [1, 1, 1, ..., 1, 1, 1],
+        [1, 1, 1, ..., 1, 1, 1],
+        [1, 1, 1, ..., 1, 1, 1]]], shape=(2, 1216, 1936), dtype=uint8)
+
+> > >
