@@ -15,7 +15,12 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5174", "ws://localhost:5174"],  # React dev server
+    allow_origins=[
+        "http://localhost:5174",
+        "ws://localhost:5174",
+        "http://localhost:5173",
+        "ws://localhost:5173"
+    ],  # React dev server
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -90,6 +95,7 @@ interval = 0.6
 @app.websocket("/ws/colors")
 async def colors_websocket_endpoint(websocket: WebSocket):
     await websocket.accept()
+    print("got a request")
     try:
         while True:
             for r, g, b in zip(r_array, g_array, b_array, strict=False):
@@ -116,6 +122,7 @@ async def colors_websocket_endpoint(websocket: WebSocket):
     except Exception as e:
         print(f"Error: {e}")
     finally:
+        print("closing the websocket")
         await websocket.close()
 
 
