@@ -21,18 +21,57 @@ class ImageStats:
     total: np.uint64
 
 
+def calculate_fractions(stats_list: list[ImageStats]) -> list[list[float]]:
+    """
+    that is the histagramming
+    todo atm this just works with the r property
+    """
+    fractions = []
+
+    # Extract all r values from the stats_list
+    r_values = [stat.r for stat in stats_list]
+
+    # Find the min and max of r values
+    r_min = min(r_values)
+    r_max = max(r_values)
+
+    # If min and max are the same, all fractions will be 0 (to avoid division by zero)
+    if r_min == r_max:
+        return [[0] * len(stats_list)]
+
+    # Calculate the fraction for each r value
+    for stat in stats_list:
+        fraction = (stat.r - r_min) / (r_max - r_min)
+        fractions.append(fraction)
+
+    return fractions
+
+
 # ✅ Pydantic model for API response (converts np.uint64 to int)
 class ImageStatsDTO(BaseModel):
-    r: int
-    g: int
-    b: int
-    total: int
+    r: float
+    g: float
+    b: float
+    total: float
 
     @classmethod
     def from_image_stats(cls, stats: ImageStats):
         """Converts ImageStats (dataclass) to ImageStatsDTO (Pydantic)"""
         return cls(
-            r=int(stats.r), g=int(stats.g), b=int(stats.b), total=int(stats.total)
+            r=float(stats.r),
+            g=float(stats.g),
+            b=float(stats.b),
+            total=float(stats.total),
+        )
+
+    @classmethod
+    def from_array(cls, list_of_floats: list[float]):
+        """Converts ImageStats (dataclass) to ImageStatsDTO (Pydantic)"""
+        return cls(
+            r=float(list_of_floats[0]),
+            g=float(list_of_floats[1]),
+            b=float(list_of_floats[2]),
+            total=float(list_of_floats[3]) or 0,
         )
 
 
@@ -158,24 +197,27 @@ def read_dataset(latest_n_reads: int):
         # ✅ Slice the last `latest_n_reads` images
         raw_data: np.ndarray = state["dset"][
             -latest_n_reads:
-            # -latest_n_reads:
         ]  # Shape (latest_n_reads, 1216, 1936, 3)
         print(f"raw data shape: {raw_data.shape}")
 
         print(raw_data)
         # ✅ Process each image and convert to DTO
-        for img in raw_data:
-            print(img)
-            procesed = process_image(img)
-            print(procesed)
-            d = ImageStatsDTO.from_image_stats(procesed)
-            print(d)
-        stats_list = [
-            ImageStatsDTO.from_image_stats(process_image(img)) for img in raw_data
-        ]
+        # that was for debugging
+        # for img in raw_data:
+        #     print(img)
+        #     procesed = process_image(img)
+        #     print(procesed)
+        #     d = ImageStatsDTO.from_image_stats(procesed)
+        #     print(d)
+        stats_list = [(process_image(img)) for img in raw_data]
+        print(f"stats list: {stats_list}")
+        fractions_list = calculate_fractions(stats_list)
+        print(f"nice fractions: {fractions_list}")
+        final_list = [ImageStatsDTO.from_array(a) for a in fractions_list]
+        print(f"final list: {final_list}")
 
         print(f"stats: {stats_list}")
-        return stats_list  # ✅ FastAPI will return JSON array
+        return final_list  # ✅ FastAPI will return JSON array
     except Exception as e:
         raise HTTPException(
             status_code=500, detail=f"Failed to read dataset: {str(e)}"
