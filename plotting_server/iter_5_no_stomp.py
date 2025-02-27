@@ -1,11 +1,13 @@
 import asyncio
-from dataclasses import dataclass
+import json
+from dataclasses import asdict, dataclass
 
 import h5py
 import numpy as np
 import pyinotify
 from fastapi import FastAPI, HTTPException, WebSocket
 from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
 
 # visr_dataset_name = "['entry']['instrument']['detector']['data']"
 visr_dataset_name = "entry/instrument/detector/data"
@@ -13,10 +15,25 @@ visr_dataset_name = "entry/instrument/detector/data"
 
 @dataclass
 class ImageStats:
+    r: np.uint64
+    g: np.uint64
+    b: np.uint64
+    total: np.uint64
+
+
+# ✅ Pydantic model for API response (converts np.uint64 to int)
+class ImageStatsDTO(BaseModel):
     r: int
     g: int
     b: int
     total: int
+
+    @classmethod
+    def from_image_stats(cls, stats: ImageStats):
+        """Converts ImageStats (dataclass) to ImageStatsDTO (Pydantic)"""
+        return cls(
+            r=int(stats.r), g=int(stats.g), b=int(stats.b), total=int(stats.total)
+        )
 
 
 app = FastAPI()
@@ -55,6 +72,7 @@ async def websocket_endpoint(websocket: WebSocket):
     try:
         while True:
             await websocket.receive_text()
+            await websocket.send_json({"test": 123})
     except Exception as e:
         print(f"WebSocket error: {e}")
     finally:
@@ -94,9 +112,21 @@ def set_dataset(
     }
 
 
+def is_serializable(value):
+    try:
+        json.dumps(value)
+        return True
+    except (TypeError, OverflowError):
+        return False
+
+
+def filter_serializable(data):
+    return {k: v for k, v in data.items() if is_serializable(v)}
+
+
 @app.get("/state")
 def get_state():
-    return state
+    return filter_serializable(state)
 
 
 @app.get("/groups")
@@ -119,13 +149,33 @@ def get_dataset_shape():
         ) from e
 
 
-@app.get("/read_dataset/")
+@app.get("/read_dataset/", response_model=list[ImageStatsDTO])
 def read_dataset(latest_n_reads: int):
     if state["dset"] is None:
         raise HTTPException(status_code=404, detail="Dataset not initialized")
+
     try:
-        data = state["dset"][latest_n_reads:]
-        return {"data": data.tolist()}
+        # ✅ Slice the last `latest_n_reads` images
+        raw_data: np.ndarray = state["dset"][
+            -latest_n_reads:
+            # -latest_n_reads:
+        ]  # Shape (latest_n_reads, 1216, 1936, 3)
+        print(f"raw data shape: {raw_data.shape}")
+
+        print(raw_data)
+        # ✅ Process each image and convert to DTO
+        for img in raw_data:
+            print(img)
+            procesed = process_image(img)
+            print(procesed)
+            d = ImageStatsDTO.from_image_stats(procesed)
+            print(d)
+        stats_list = [
+            ImageStatsDTO.from_image_stats(process_image(img)) for img in raw_data
+        ]
+
+        print(f"stats: {stats_list}")
+        return stats_list  # ✅ FastAPI will return JSON array
     except Exception as e:
         raise HTTPException(
             status_code=500, detail=f"Failed to read dataset: {str(e)}"
@@ -135,7 +185,8 @@ def read_dataset(latest_n_reads: int):
 @app.post("/demo")
 def demo():
     """all the things to start the demo: query blueapi to start the loaded plan and arrange all the bits to work together."""
-    blueapi_url = "https://b01-1-blueapi.diamond.ac.uk/"
+    pass
+    # blueapi_url = "https://b01-1-blueapi.diamond.ac.uk/"
     # POST request to the correct plan with the right params /tasks
     # example json body: { "name": "count", "params": { "detectors": [ "x" ] } }
     # reset the state
@@ -171,13 +222,17 @@ def process_image(image: np.ndarray) -> ImageStats:
     """
     Divide the image into 3 parts, compute sums for each part, and store in a dataclass.
     """
-    h, _ = image.shape[1], image.shape[2]  # Get height and width of each 2D slice
+    print(f"processing image: {image}")
+    print(f"shape: {image.shape}")
+    h, _ = image.shape[0], image.shape[1]  # Get height and width of each 2D slice
+
     segment_height = h // 3
+    print(f"h and segment h: {h}, {segment_height}")
 
     # Divide image into three parts along the height dimension
-    r_sum = np.sum(image[:, :segment_height, :])
-    g_sum = np.sum(image[:, segment_height : 2 * segment_height, :])
-    b_sum = np.sum(image[:, 2 * segment_height :, :])
+    r_sum = np.sum(image[:, :segment_height])
+    g_sum = np.sum(image[:, segment_height : 2 * segment_height])
+    b_sum = np.sum(image[:, 2 * segment_height :])
 
     # Return results as a dataclass
     return ImageStats(r=r_sum, g=g_sum, b=b_sum, total=r_sum + g_sum + b_sum)
@@ -235,4 +290,4 @@ if __name__ == "__main__":
     # todo add total calculation - is it after the variance or before?
 
     thread.start()
-    uvicorn.run(app, port=8001)
+    uvicorn.run(app, port=8002)
