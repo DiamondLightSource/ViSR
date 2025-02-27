@@ -1,5 +1,8 @@
 # notes
 
+todo add mulitple clients too
+<https://fastapi.tiangolo.com/advanced/websockets/#handling-disconnections-and-multiple-clients>
+
 snaking paths, pattern growing on the screen
 with a pre-defined sum over rectangular region
 

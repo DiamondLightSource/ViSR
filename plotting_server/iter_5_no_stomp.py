@@ -1,6 +1,6 @@
 import asyncio
 import json
-from dataclasses import asdict, dataclass
+from dataclasses import dataclass
 
 import h5py
 import numpy as np
@@ -21,28 +21,49 @@ class ImageStats:
     total: np.uint64
 
 
-def calculate_fractions(stats_list: list[ImageStats]) -> list[list[float]]:
-    """
-    that is the histagramming
-    todo atm this just works with the r property
-    """
+def calculate_fractions(
+    stats_list: list[ImageStats],
+) -> list[tuple[float, float, float, float]]:
     fractions = []
 
-    # Extract all r values from the stats_list
+    # Extract all r, g, b, t values from the stats_list
     r_values = [stat.r for stat in stats_list]
+    g_values = [stat.g for stat in stats_list]
+    b_values = [stat.b for stat in stats_list]
+    t_values = [stat.total for stat in stats_list]
 
-    # Find the min and max of r values
-    r_min = min(r_values)
-    r_max = max(r_values)
+    # Find min and max for each of the properties (r, g, b, t)
+    r_min, r_max = min(r_values), max(r_values)
+    g_min, g_max = min(g_values), max(g_values)
+    b_min, b_max = min(b_values), max(b_values)
+    t_min, t_max = min(t_values), max(t_values)
 
-    # If min and max are the same, all fractions will be 0 (to avoid division by zero)
+    # If any property min == max, fractions for that property will be 0
     if r_min == r_max:
-        return [[0] * len(stats_list)]
+        r_fractions = [0] * len(stats_list)
+    else:
+        r_fractions = [(stat.r - r_min) / (r_max - r_min) for stat in stats_list]
 
-    # Calculate the fraction for each r value
-    for stat in stats_list:
-        fraction = (stat.r - r_min) / (r_max - r_min)
-        fractions.append(fraction)
+    if g_min == g_max:
+        g_fractions = [0] * len(stats_list)
+    else:
+        g_fractions = [(stat.g - g_min) / (g_max - g_min) for stat in stats_list]
+
+    if b_min == b_max:
+        b_fractions = [0] * len(stats_list)
+    else:
+        b_fractions = [(stat.b - b_min) / (b_max - b_min) for stat in stats_list]
+
+    if t_min == t_max:
+        t_fractions = [0] * len(stats_list)
+    else:
+        t_fractions = [(stat.total - t_min) / (t_max - t_min) for stat in stats_list]
+
+    # Combine fractions for each property into a tuple for each entry
+    for i in range(len(stats_list)):
+        fractions.append(
+            (r_fractions[i], g_fractions[i], b_fractions[i], t_fractions[i])
+        )
 
     return fractions
 
@@ -71,7 +92,7 @@ class ImageStatsDTO(BaseModel):
             r=float(list_of_floats[0]),
             g=float(list_of_floats[1]),
             b=float(list_of_floats[2]),
-            total=float(list_of_floats[3]) or 0,
+            total=float(list_of_floats[3]),
         )
 
 
@@ -103,15 +124,34 @@ clients = set()
 #     state["dset"] = f[visr_dataset_name]
 
 
-@app.websocket("/ws/colors")
+@app.websocket("/ws/data")
 async def websocket_endpoint(websocket: WebSocket):
     EventHandler.websocket = websocket
+    if not state["dset"]:
+        return
     await websocket.accept()
     clients.add(websocket)
+    data_points: np.ndarray = state["dset"]
     try:
         while True:
-            await websocket.receive_text()
-            await websocket.send_json({"test": 123})
+            # Loop through each batch of data points
+            for i in range(1, len(data_points) + 1):
+                raw_data: np.ndarray = state["dset"][
+                    -i:
+                ]  # Shape (latest_n_reads, 1216, 1936, 3)
+                print(f"raw data shape: {raw_data.shape}")
+
+                stats_list = [(process_image(img)) for img in raw_data]
+                print(f"stats list: {stats_list}")
+                fractions = calculate_fractions(stats_list)
+                # Send the fractions to the frontend
+                print(f"fractions: {fractions}")
+                await websocket.send(json.dumps(fractions))
+                # Wait for a small interval before sending the next batch
+                await asyncio.sleep(1)  # You can adjust the sleep time as needed
+            # Send an empty array to indicate end of batch
+            await websocket.send(json.dumps([]))
+            await asyncio.sleep(1)  # Wait before starting a new round of data
     except Exception as e:
         print(f"WebSocket error: {e}")
     finally:
