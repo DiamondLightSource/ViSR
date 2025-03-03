@@ -20,15 +20,16 @@ bluesky does some of that stuff -
 
 add tmp suffix and file tempalte
 
-file mode capture / stream not sure
+file mode capture / stream not sure - that is tin the camera itsel
 
-numbe rof images to see how many to save
+number of images to see how many to save
 
 port names tricky - it's a directed acyclic graphs
 D2.CAM port name
 every plugin has a port naem
 
 ND array port in the ND ciruclar buffer section
+and there open the capture too
 
 wired directly to the camera - raw image, no preorpcessing
 

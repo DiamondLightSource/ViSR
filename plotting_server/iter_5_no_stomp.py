@@ -111,9 +111,11 @@ app.add_middleware(
 )
 
 file_writing_path = "/dls/b01-1/data/2025/cm40661-1/bluesky"
+# default_filename = "0.hdf"
+default_filename = "-Stan-March-2025.hdf"
 state = {
     "filepath": file_writing_path,
-    "filename": "0.hdf",
+    "filename": default_filename,
     "dataset_name": visr_dataset_name,
     "dset": None,
     "file": None,
