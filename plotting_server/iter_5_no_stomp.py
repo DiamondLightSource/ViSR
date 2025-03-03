@@ -110,8 +110,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+file_writing_path = "/dls/b01-1/data/2025/cm40661-1/bluesky"
 state = {
-    "filepath": "/dls/b01-1/data/2025/cm40661-1/bluesky",
+    "filepath": file_writing_path,
     "filename": "0.hdf",
     "dataset_name": visr_dataset_name,
     "dset": None,
@@ -134,21 +135,25 @@ async def websocket_endpoint(websocket: WebSocket):
         return
     await websocket.accept()
     clients.add(websocket)
-    data_points: np.ndarray = state["dset"]
     try:
         while True:
+            data_points: np.ndarray = state["dset"]
+            if data_points is None or len(data_points) == 0:
+                print("❌ No data available, sending reset message...")
+                await websocket.send_json([])
+                await asyncio.sleep(1)
+                continue  # Restart loop to wait for new data
+
             # Loop through each batch of data points
             for i in range(1, len(data_points) + 1):
-                raw_data: np.ndarray = state["dset"][
-                    -i:
-                ]  # Shape (latest_n_reads, 1216, 1936, 3)
-                print(f"raw data shape: {raw_data.shape}")
+                raw_data: np.ndarray = state["dset"][-i:]
+                # print(f"raw data shape: {raw_data.shape}")
 
                 stats_list = [(process_image(img)) for img in raw_data]
-                print(f"stats list: {stats_list}")
+                # print(f"stats list: {stats_list}")
                 fractions = calculate_fractions(stats_list)
                 # Send the fractions to the frontend
-                print(f"fractions: {fractions}")
+                # print(f"fractions: {fractions}")
                 # m: Message = json.dumps(fractions)
                 try:
                     await websocket.send_json(fractions)
@@ -158,7 +163,8 @@ async def websocket_endpoint(websocket: WebSocket):
                 # Wait for a small interval before sending the next batch
                 await asyncio.sleep(1)  # You can adjust the sleep time as needed
             # Send an empty array to indicate end of batch
-            await websocket.send({})
+            print("✅ Sending reset message...")
+            await websocket.send_json([])
             await asyncio.sleep(1)  # Wait before starting a new round of data
     except Exception as e:
         print(f"WebSocket error: {e}")
@@ -321,12 +327,12 @@ def process_image(image: np.ndarray) -> ImageStats:
     """
     Divide the image into 3 parts, compute sums for each part, and store in a dataclass.
     """
-    print(f"processing image: {image}")
-    print(f"shape: {image.shape}")
+    # print(f"processing image: {image}")
+    # print(f"shape: {image.shape}")
     h, _ = image.shape[0], image.shape[1]  # Get height and width of each 2D slice
 
     segment_height = h // 3
-    print(f"h and segment h: {h}, {segment_height}")
+    # print(f"h and segment h: {h}, {segment_height}")
 
     # Divide image into three parts along the height dimension
     r_sum = np.sum(image[:, :segment_height])
@@ -376,10 +382,9 @@ def start_notifier_loop():
     handler.loop = loop
     notifier = pyinotify.Notifier(wm, handler)
     mask = pyinotify.IN_CREATE | pyinotify.IN_MODIFY  # type: ignore
-    path = "/tmp"
-    wm.add_watch(path, mask)
+    wm.add_watch(file_writing_path, mask)
 
-    print(f"Watching {path} for file changes...")
+    print(f"Watching {file_writing_path} for file changes...")
     notifier.loop()
 
 
