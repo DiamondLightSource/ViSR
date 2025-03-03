@@ -1,6 +1,7 @@
 import asyncio
 import json
 from dataclasses import dataclass
+from starlette.types import Message
 
 import h5py
 import numpy as np
@@ -32,6 +33,7 @@ def calculate_fractions(
     b_values = [stat.b for stat in stats_list]
     t_values = [stat.total for stat in stats_list]
 
+    print(r_values, g_values, b_values, t_values)
     # Find min and max for each of the properties (r, g, b, t)
     r_min, r_max = min(r_values), max(r_values)
     g_min, g_max = min(g_values), max(g_values)
@@ -65,6 +67,7 @@ def calculate_fractions(
             (r_fractions[i], g_fractions[i], b_fractions[i], t_fractions[i])
         )
 
+    print(fractions)
     return fractions
 
 
@@ -146,11 +149,16 @@ async def websocket_endpoint(websocket: WebSocket):
                 fractions = calculate_fractions(stats_list)
                 # Send the fractions to the frontend
                 print(f"fractions: {fractions}")
-                await websocket.send(json.dumps(fractions))
+                # m: Message = json.dumps(fractions)
+                try:
+                    await websocket.send_json(fractions)
+                except Exception as e:
+                    print(f"sending json error: {e}")
+
                 # Wait for a small interval before sending the next batch
                 await asyncio.sleep(1)  # You can adjust the sleep time as needed
             # Send an empty array to indicate end of batch
-            await websocket.send(json.dumps([]))
+            await websocket.send({})
             await asyncio.sleep(1)  # Wait before starting a new round of data
     except Exception as e:
         print(f"WebSocket error: {e}")
@@ -278,6 +286,7 @@ def demo():
 
 class EventHandler(pyinotify.ProcessEvent):
     websocket: WebSocket | None = None
+    loop: asyncio.AbstractEventLoop | None = None
 
     def process_IN_CREATE(self, event):
         print(f"File created: {event.pathname}")
@@ -290,8 +299,16 @@ class EventHandler(pyinotify.ProcessEvent):
         # dataset will be a 3d array
         new_image = state["dset"][:-1]
         variance = process_and_append(new_image, state["stats_array"])
-        t = asyncio.create_task(self.send_variance(variance))
-        asyncio.gather(t)
+
+        # ✅ Run the async task safely inside FastAPI's event loop
+        if self.loop:
+            self.loop.call_soon_threadsafe(
+                asyncio.create_task, self.send_variance(variance)
+            )
+        else:
+            print("❌ No event loop available!")
+        # t = asyncio.create_task(self.send_variance(variance))
+        # asyncio.gather(t)
 
     async def send_variance(self, variance):
         if self.websocket:
@@ -352,8 +369,11 @@ def process_and_append(image: np.ndarray, stats_array: list) -> np.ndarray:
 
 
 def start_notifier_loop():
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
     wm = pyinotify.WatchManager()
     handler = EventHandler()
+    handler.loop = loop
     notifier = pyinotify.Notifier(wm, handler)
     mask = pyinotify.IN_CREATE | pyinotify.IN_MODIFY  # type: ignore
     path = "/tmp"
@@ -369,7 +389,6 @@ if __name__ == "__main__":
     import uvicorn
 
     thread = Thread(target=start_notifier_loop)
-    # todo add total calculation - is it after the variance or before?
 
     thread.start()
     uvicorn.run(app, port=8002)
