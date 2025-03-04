@@ -1,14 +1,14 @@
 import asyncio
 import json
 from dataclasses import dataclass
-from starlette.types import Message
 
 import h5py
 import numpy as np
-import pyinotify
 from fastapi import FastAPI, HTTPException, WebSocket
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
+from watchdog.events import FileSystemEvent, FileSystemEventHandler
+from watchdog.observers import Observer
 
 # visr_dataset_name = "['entry']['instrument']['detector']['data']"
 visr_dataset_name = "entry/instrument/detector/data"
@@ -282,7 +282,8 @@ def read_dataset(latest_n_reads: int):
 
 @app.post("/demo")
 def demo():
-    """all the things to start the demo: query blueapi to start the loaded plan and arrange all the bits to work together."""
+    """all the things to start the demo: query blueapi to start the loaded plan and
+    arrange all the bits to work together."""
     pass
     # blueapi_url = "https://b01-1-blueapi.diamond.ac.uk/"
     # POST request to the correct plan with the right params /tasks
@@ -292,37 +293,50 @@ def demo():
     # websocket send reset too
 
 
-class EventHandler(pyinotify.ProcessEvent):
+class EventHandler(FileSystemEventHandler):
     websocket: WebSocket | None = None
     loop: asyncio.AbstractEventLoop | None = None
 
-    def process_IN_CREATE(self, event):
-        print(f"File created: {event.pathname}")
+    def on_created(self, event: FileSystemEvent) -> None:
+        """Handle file creation event."""
+        if event.is_directory:
+            return
+        print(f"File created: {event.src_path}")
 
-    def process_IN_MODIFY(self, event):
-        print(f"File modified: {event.pathname}")
+    def on_modified(self, event: FileSystemEvent) -> None:
+        """Handle file modification event."""
+        if event.is_directory:
+            return
+        print(f"File modified: {event.src_path}")
+
+        if event.src_path == f"{state['filepath']}/{state['filename']}":
+            print("it is that file we are interested in")
+            # todo read the file and update the stats array
+        # Refresh dataset (assuming it's an h5py dataset)
         state["dset"].id.refresh()
+
         # Mock loading image from the file
-        # todo read in the new file looking for the new array
-        # dataset will be a 3d array
-        new_image = state["dset"][:-1]
-        variance = process_and_append(new_image, state["stats_array"])
+        # TODO: Read the new file looking for the new array
+        # Dataset will be a 3D array
 
         # ✅ Run the async task safely inside FastAPI's event loop
         if self.loop:
+            print("✅ Sending variance via WebSocket...")
+            # todo should send to all clients
             self.loop.call_soon_threadsafe(
-                asyncio.create_task, self.send_variance(variance)
+                # todo change this number
+                asyncio.create_task,
+                self.send_variance(np.random.rand(3)),
             )
         else:
             print("❌ No event loop available!")
-        # t = asyncio.create_task(self.send_variance(variance))
-        # asyncio.gather(t)
 
     async def send_variance(self, variance):
+        """Send variance via WebSocket."""
         if self.websocket:
             await self.websocket.send_json({"variance": variance.tolist()})
         else:
-            raise ConnectionError("eventhandler does not have a configured websocket")
+            raise ConnectionError("EventHandler does not have a configured WebSocket")
 
 
 def process_image(image: np.ndarray) -> ImageStats:
@@ -345,49 +359,19 @@ def process_image(image: np.ndarray) -> ImageStats:
     return ImageStats(r=r_sum, g=g_sum, b=b_sum, total=r_sum + g_sum + b_sum)
 
 
-def process_and_append(image: np.ndarray, stats_array: list) -> np.ndarray:
-    """
-    Process a new image, append its stats to the stats array
-    and calculate the variance array.
-    """
-    # Process the new image
-    stats = process_image(image)
-    stats_array.append(stats)
-
-    # Extract r, g, b values from all ImageStats objects in the stats array
-    r_values = np.array([d.r for d in stats_array])
-    g_values = np.array([d.g for d in stats_array])
-    b_values = np.array([d.b for d in stats_array])
-
-    # Calculate min and max for r, g, b
-    r_min, r_max = np.min(r_values), np.max(r_values)
-    g_min, g_max = np.min(g_values), np.max(g_values)
-    b_min, b_max = np.min(b_values), np.max(b_values)
-
-    # Compute variance (max - min) normalized by max
-    variance_array = np.array(
-        [
-            (r_max - r_min) / r_max if r_max != 0 else 0,
-            (g_max - g_min) / g_max if g_max != 0 else 0,
-            (b_max - b_min) / b_max if b_max != 0 else 0,
-        ]
-    )
-
-    return variance_array
-
-
 def start_notifier_loop():
+    """Start the watchdog observer loop."""
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
-    wm = pyinotify.WatchManager()
+
     handler = EventHandler()
     handler.loop = loop
-    notifier = pyinotify.Notifier(wm, handler)
-    mask = pyinotify.IN_CREATE | pyinotify.IN_MODIFY  # type: ignore
-    wm.add_watch(file_writing_path, mask)
+
+    observer = Observer()
+    observer.schedule(handler, file_writing_path, recursive=False)
 
     print(f"Watching {file_writing_path} for file changes...")
-    notifier.loop()
+    observer.start()
 
 
 if __name__ == "__main__":

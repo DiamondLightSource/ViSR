@@ -5,9 +5,7 @@ from dataclasses import dataclass
 import h5py
 import numpy as np
 import pyinotify
-import requests
 import stomp
-from event_model import RunStart, StreamDatum, StreamResource
 from fastapi import FastAPI, HTTPException, WebSocket
 from fastapi.middleware.cors import CORSMiddleware
 

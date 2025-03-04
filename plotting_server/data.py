@@ -1,5 +1,6 @@
 import numpy as np
 
+
 def process_image(image: np.ndarray) -> dict:
     """
     Divide the image into 3 parts, compute sums for each part, and store in a dictionary.
