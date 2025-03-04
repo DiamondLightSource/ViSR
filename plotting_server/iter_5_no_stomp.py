@@ -110,6 +110,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# todo use redis instead
+# https://news.ycombinator.com/item?id=14214122
 file_writing_path = "/dls/b01-1/data/2025/cm40661-1/bluesky"
 # default_filename = "0.hdf"
 default_filename = "-Stan-March-2025.hdf"
