@@ -4,7 +4,7 @@ import os
 from dataclasses import dataclass
 from functools import lru_cache
 from threading import Thread
-from typing import Annotated, Any
+from typing import Annotated, Any, Union
 
 import h5py
 import numpy as np
@@ -30,23 +30,43 @@ state = {
 }
 
 
-def list_hdf5_tree(file_path: str) -> list[Any]:
-    """Recursively lists all groups and datasets in an HDF5 file."""
-    groups = []
+def to_serializable(value: Any) -> str | int | float | list | None:
+    """Convert NumPy types to standard Python types for JSON serialization."""
+    if isinstance(value, np.bytes_):  # Convert bytes to string
+        return value.decode()
+    elif isinstance(value, np.integer):  # Convert np.int32, np.int64, etc. to int
+        return int(value)
+    elif isinstance(value, np.floating):  # Convert np.float32, np.float64 to float
+        return float(value)
+    elif isinstance(value, np.ndarray):  # Convert np.array to list
+        return value.tolist()
+    else:
+        return value  # Assume already serializable
+
+
+def list_hdf5_tree(file_path: str) -> dict[str, Any]:
+    """Recursively lists all groups and datasets in an HDF5 file, returning a structured format."""
+    structure = {"groups": []}
+
     with h5py.File(file_path, "r") as f:
 
-        def print_attrs(name, obj):
+        def visit(name: str, obj):
             obj_type = "Group" if isinstance(obj, h5py.Group) else "Dataset"
-            groups.append(f"{obj_type}: {name}")
-            for key, value in obj.attrs.items():
-                groups.append(f"  Attribute - {key}: {value}")
+            entry = {
+                "name": name,
+                "type": obj_type,
+                "items": [
+                    {"name": k, "value": to_serializable(v)}
+                    for k, v in obj.attrs.items()
+                ],
+            }
+            structure["groups"].append(entry)
 
-        f.visititems(print_attrs)
-    return groups
+        print(f)
 
+        f.visititems(visit)
 
-# Example usage
-# list_hdf5_tree("foo.hdf5")
+    return structure
 
 
 @dataclass
@@ -263,6 +283,7 @@ async def get_groups_in_file(
     # list all the groups in the file
     file_path = os.path.join(settings.hdf_path, id)
     groups = list_hdf5_tree(file_path)
+    print(groups)
     return {"groups": groups}
 
 
@@ -360,12 +381,13 @@ async def stream_dataset(
         await manager.disconnect(client_id)
 
 
-@app.websocket("/ws/{client_id}/demo")
+@app.websocket("/ws/{client_id}/demo/{filename}")
 async def demo_stream(
     settings: Annotated[dict, Depends(get_settings)],
     redis: Annotated[dict, Depends(get_redis)],
     client_id: str,
     websocket: WebSocket,
+    filename: str,
 ):
     """
     endpoint with hardcoded read
@@ -373,7 +395,6 @@ async def demo_stream(
 
     dataset_name: str = "entry/instrument/detector/data"
     filepath = "/dls/b01-1/data/2025/cm40661-1/bluesky"
-    filename = "-Stan-March-2025.hdf"
     f: h5py.File = h5py.File(os.path.join(filepath, filename), "r")
     await manager.connect(websocket, client_id)
     data_points = f[dataset_name]
