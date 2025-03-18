@@ -3,30 +3,32 @@ from typing import Any
 
 import bluesky.plan_stubs as bps
 import bluesky.preprocessors as bpp
+from bluesky.protocols import Movable
 from dodal.common import MsgGenerator, inject
+from dodal.devices.motors import XYZPositioner
 from ophyd_async.core import Device, StandardDetector
 from ophyd_async.epics.adaravis import AravisDetector
 from ophyd_async.plan_stubs import setup_ndstats_sum
-from scanspec.specs import Line
+from scanspec.specs import Line, Spec
 
 DEFAULT_WEBCAM = inject("webcam")
-DEFAULT_MOTOR = inject("sample_stage")
+DEFAULT_MOTOR: XYZPositioner = inject("sample_stage")
 
 ROOT_CONFIG_SAVES_DIR = Path(__file__).parent.parent.parent / "pvs" / "demo_plan"
 
 # using snaked grid from the tutorial
 # https://blueskyproject.io/scanspec/main/tutorials/creating-a-spec.html#snaked-grid
 # todo spec needs to be revised in person physically
-DEMO_LINE = Line("x", 1, 2, 5) * ~Line("y", 1, 2, 5)
+DEMO_LINE: Spec[Movable] = Line("x", 1, 2, 5) * ~Line("y", 1, 2, 5)
 
 
 # todo the plan should accept a trajectory of points from scanspec
 def demo_plan(
-    metadata: dict[str, Any] | None = None,
     manta: AravisDetector = DEFAULT_WEBCAM,
     exposure: float = 1.0,
-    sample_stage=DEFAULT_MOTOR,
+    sample_stage: XYZPositioner = DEFAULT_MOTOR,
     spec=DEMO_LINE,
+    metadata: dict[str, Any] | None = None,
 ) -> MsgGenerator:
     detectors: set[StandardDetector] = {manta}
 
@@ -56,7 +58,7 @@ def demo_plan(
                 yield from bps.mv(sample_stage.x, new_x)
             new_y = d.get("y")
             if new_y:
-                yield from bps.mv(sample_stage.x, new_y)
+                yield from bps.mv(sample_stage.y, new_y)
             yield from bps.trigger_and_read([*detectors])
 
     rs_uid = yield from inner_plan()
