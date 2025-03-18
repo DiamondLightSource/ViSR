@@ -3,11 +3,11 @@ from typing import Any
 
 import bluesky.plan_stubs as bps
 import bluesky.preprocessors as bpp
-
+from bluesky.protocols import Readable
 from dodal.common import MsgGenerator, inject
+from ophyd_async.epics.adaravis import AravisDetector
 from ophyd_async.fastcs.panda import HDFPanda
 from ophyd_async.plan_stubs import setup_ndstats_sum
-from ophyd_async.core import Device
 
 DEFAULT_WEBCAM = inject("webcam")
 DEFAULT_PANDA = inject("panda1")
@@ -18,7 +18,7 @@ ROOT_CONFIG_SAVES_DIR = Path(__file__).parent.parent.parent / "pvs" / "basic_pla
 def basic_plan(
     panda: HDFPanda = DEFAULT_PANDA,
     metadata: dict[str, Any] | None = None,
-    webcam: Device = DEFAULT_WEBCAM,
+    manta: AravisDetector = DEFAULT_WEBCAM,
     exposure: float = 1.0,
 ) -> MsgGenerator:
     """
@@ -37,7 +37,7 @@ def basic_plan(
     Yields:
         Iterator[MsgGenerator]: Bluesky messages
     """
-    detectors = {webcam}
+    detectors: set[Readable] = {manta}
 
     plan_args = {
         "exposure": exposure,
@@ -54,12 +54,12 @@ def basic_plan(
     devices = detectors
 
     # this is for file writing
-    yield from setup_ndstats_sum(webcam)
+    yield from setup_ndstats_sum(manta)
 
     @bpp.stage_decorator(devices)
     @bpp.run_decorator(md=_md)
     def inner_plan():
-        yield from bps.trigger_and_read(devices)
+        yield from bps.trigger_and_read([*detectors])
 
     rs_uid = yield from inner_plan()
     return rs_uid
