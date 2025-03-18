@@ -3,9 +3,8 @@ from typing import Any
 
 import bluesky.plan_stubs as bps
 import bluesky.preprocessors as bpp
-from bluesky.protocols import Readable
 from dodal.common import MsgGenerator, inject
-from ophyd_async.core import Device
+from ophyd_async.core import Device, StandardDetector
 from ophyd_async.epics.adaravis import AravisDetector
 from ophyd_async.plan_stubs import setup_ndstats_sum
 from scanspec.specs import Line
@@ -29,7 +28,7 @@ def demo_plan(
     sample_stage=DEFAULT_MOTOR,
     spec=DEMO_LINE,
 ) -> MsgGenerator:
-    detectors: set[Readable] = {manta}
+    detectors: set[StandardDetector] = {manta}
 
     plan_args = {
         "exposure": exposure,
@@ -52,7 +51,12 @@ def demo_plan(
     def inner_plan():
         for d in spec.midpoints():
             print(d)
-            yield from bps.mv(sample_stage, d)
+            new_x = d.get("x")
+            if new_x:
+                yield from bps.mv(sample_stage.x, new_x)
+            new_y = d.get("y")
+            if new_y:
+                yield from bps.mv(sample_stage.x, new_y)
             yield from bps.trigger_and_read([*detectors])
 
     rs_uid = yield from inner_plan()
