@@ -4,7 +4,7 @@ import os
 from dataclasses import dataclass
 from functools import lru_cache
 from threading import Thread
-from typing import Annotated, Any, Union
+from typing import Annotated, Any
 
 import h5py
 import numpy as np
