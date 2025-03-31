@@ -18,11 +18,18 @@ ROOT_CONFIG_SAVES_DIR = Path(__file__).parent.parent.parent / "pvs" / "demo_plan
 
 # using snaked grid from the tutorial
 # https://blueskyproject.io/scanspec/main/tutorials/creating-a-spec.html#snaked-grid
-# todo spec needs to be revised in person physically
-DEMO_LINE: Spec[Movable] = Line("x", 1, 2, 5) * ~Line("y", 1, 2, 5)
+
+#  physically measured the data from here
+# https://github.com/DiamondLightSource/ViSR/issues/4#issuecomment-2766099774
+# NOTE: y is inverted
+top_left = [-2, 3.7]
+bottom_right = [4.3, 7.2]
+DEMO_LINE: Spec[Movable] = Line("x", top_left[0], bottom_right[0], 7) * ~Line(
+    "y", top_left[1], bottom_right[1], 9
+)
+STAGE_Z_CONSTANT = 0.01
 
 
-# todo the plan should accept a trajectory of points from scanspec
 def demo_plan(
     manta: AravisDetector = DEFAULT_WEBCAM,
     exposure: float = 1.0,
@@ -51,6 +58,7 @@ def demo_plan(
     @bpp.stage_decorator(devices)
     @bpp.run_decorator(md=_md)
     def inner_plan():
+        yield from bps.mv(sample_stage.z, STAGE_Z_CONSTANT)
         for d in spec.midpoints():
             print(d)
             new_x = d.get("x")
