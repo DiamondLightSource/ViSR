@@ -6,7 +6,7 @@ import bluesky.preprocessors as bpp
 from bluesky.protocols import Movable
 from dodal.common import MsgGenerator, inject
 from dodal.devices.motors import XYZPositioner
-from ophyd_async.core import Device, StandardDetector
+from ophyd_async.core import Device, StandardDetector, TriggerInfo
 from ophyd_async.epics.adaravis import AravisDetector
 from ophyd_async.plan_stubs import setup_ndstats_sum
 from scanspec.specs import Line, Spec
@@ -59,14 +59,16 @@ def demo_plan(
     @bpp.run_decorator(md=_md)
     def inner_plan():
         yield from bps.mv(sample_stage.z, STAGE_Z_CONSTANT)
+        yield from bps.prepare([*detectors], TriggerInfo(livetime=0.2))
         for d in spec.midpoints():
             print(d)
             new_x = d.get("x")
-            if new_x:
-                yield from bps.mv(sample_stage.x, new_x)
             new_y = d.get("y")
+            if new_x:
+                yield from bps.abs_set(sample_stage.x, new_x, wait=False)
             if new_y:
-                yield from bps.mv(sample_stage.y, new_y)
+                yield from bps.abs_set(sample_stage.y, new_y, wait=False)
+            yield from bps.wait()
             yield from bps.trigger_and_read([*detectors])
 
     rs_uid = yield from inner_plan()
