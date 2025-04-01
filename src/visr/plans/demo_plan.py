@@ -24,9 +24,6 @@ ROOT_CONFIG_SAVES_DIR = Path(__file__).parent.parent.parent / "pvs" / "demo_plan
 # NOTE: y is inverted
 top_left = [-2, 3.7]
 bottom_right = [4.3, 7.2]
-DEMO_LINE: Spec[Movable] = Line("x", top_left[0], bottom_right[0], 7) * ~Line(
-    "y", top_left[1], bottom_right[1], 9
-)
 STAGE_Z_CONSTANT = 0.01
 
 
@@ -34,7 +31,6 @@ def demo_plan(
     manta: AravisDetector = DEFAULT_WEBCAM,
     exposure: float = 1.0,
     sample_stage: XYZPositioner = DEFAULT_MOTOR,
-    spec=DEMO_LINE,
     metadata: dict[str, Any] | None = None,
 ) -> MsgGenerator:
     detectors: set[StandardDetector] = {manta}
@@ -55,11 +51,15 @@ def demo_plan(
     # this is for file writing
     yield from setup_ndstats_sum(manta)
 
+    spec: Spec[Movable] = Line(sample_stage.x, top_left[0], bottom_right[0], 7) * ~Line(
+        sample_stage.y, top_left[1], bottom_right[1], 9
+    )
+
     @bpp.stage_decorator(devices)
     @bpp.run_decorator(md=_md)
     def inner_plan():
-        yield from bps.mv(sample_stage.z, STAGE_Z_CONSTANT)
-        yield from bps.prepare([*detectors], TriggerInfo(livetime=0.2))
+        yield from bps.abs_set(sample_stage.z, STAGE_Z_CONSTANT)
+        yield from bps.prepare(manta, TriggerInfo(livetime=0.2, number_of_triggers=1))
         for d in spec.midpoints():
             print(d)
             new_x = d.get("x")
