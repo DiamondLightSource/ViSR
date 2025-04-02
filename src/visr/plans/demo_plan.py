@@ -11,7 +11,7 @@ from ophyd_async.epics.adaravis import AravisDetector
 from ophyd_async.plan_stubs import setup_ndstats_sum
 from scanspec.specs import Line, Spec
 
-DEFAULT_WEBCAM = inject("webcam")
+DEFAULT_WEBCAM = inject("manta")
 DEFAULT_MOTOR: XYZPositioner = inject("sample_stage")
 
 ROOT_CONFIG_SAVES_DIR = Path(__file__).parent.parent.parent / "pvs" / "demo_plan"
