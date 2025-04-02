@@ -6,6 +6,7 @@ import bluesky.preprocessors as bpp
 from bluesky.protocols import Movable
 from dodal.common import MsgGenerator, inject
 from dodal.devices.motors import XYZPositioner
+from dodal.plan_stubs.data_session import attach_data_session_metadata_decorator
 from ophyd_async.core import Device, StandardDetector, TriggerInfo
 from ophyd_async.epics.adaravis import AravisDetector
 from ophyd_async.plan_stubs import setup_ndstats_sum
@@ -25,7 +26,6 @@ ROOT_CONFIG_SAVES_DIR = Path(__file__).parent.parent.parent / "pvs" / "demo_plan
 top_left = [-2, 3.7]
 bottom_right = [4.3, 7.2]
 STAGE_Z_CONSTANT = 0.01
-
 
 def demo_plan(
     manta: AravisDetector = DEFAULT_WEBCAM,
@@ -54,7 +54,8 @@ def demo_plan(
     spec: Spec[Movable] = Line(sample_stage.x, top_left[0], bottom_right[0], 7) * ~Line(
         sample_stage.y, top_left[1], bottom_right[1], 9
     )
-
+    
+    @attach_data_session_metadata_decorator()
     @bpp.stage_decorator(devices)
     @bpp.run_decorator(md=_md)
     def inner_plan():
