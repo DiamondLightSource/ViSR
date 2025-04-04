@@ -62,7 +62,7 @@ def demo_plan(
         yield from bps.abs_set(sample_stage.z, STAGE_Z_CONSTANT)
         yield from bps.prepare(manta, TriggerInfo(livetime=0.2, number_of_triggers=1))
         for d in spec.midpoints():
-            print(d)
+            print(f"midpoint: {d}")
             new_x = d.get("x")
             new_y = d.get("y")
             if new_x:
@@ -72,5 +72,6 @@ def demo_plan(
             yield from bps.wait()
             yield from bps.trigger_and_read([*detectors])
 
-    rs_uid = yield from inner_plan()
-    return rs_uid
+    yield from inner_plan()
+    # rs_uid = yield from inner_plan()
+    # return rs_uid
