@@ -1,5 +1,8 @@
 import asyncio
 import json
+from pathlib import Path
+from typing import Set
+from urllib.parse import urlparse
 
 import h5py
 import numpy as np
@@ -9,6 +12,15 @@ from davidia.models.messages import Aspect, ImageData, ImageDataMessage, PlotCon
 from event_model import StreamDatum, StreamResource
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.websockets import WebSocket
+
+
+def uri_to_path(uri: str) -> Path:
+    parsed = urlparse(uri)
+    if parsed.scheme != "file":
+        raise ValueError(f"Unsupported URI scheme: {parsed.scheme}")
+    # Remove leading slash if running on Windows (drive letters)
+    return Path(parsed.path)
+
 
 # NOTE this defines a Davidia streaming app
 app = create_app()
@@ -50,8 +62,7 @@ async def send_to_clients(image_data: ImageDataMessage):
 def tranform_dataset_into_dto(dataset: h5py.Dataset) -> ImageDataMessage:
     x_values = np.arange(dataset.shape[1])
     y_values = np.arange(dataset.shape[0])
-    # todo fix the values errror
-    data = ImageData(values=dataset, aspect=Aspect.equal)
+    data = ImageData(values=dataset[...], aspect=Aspect.equal)
     plot_config = PlotConfig(
         x_label="x-axis",
         y_label="y-axis",
@@ -62,6 +73,9 @@ def tranform_dataset_into_dto(dataset: h5py.Dataset) -> ImageDataMessage:
     return ImageDataMessage(im_data=data, plot_config=plot_config)
 
 
+descriptors: Set[str] = set()
+
+
 class STOMPListener(stomp.ConnectionListener):
     def on_error(self, frame):
         print(f"Error: {frame.body}")
@@ -69,10 +83,24 @@ class STOMPListener(stomp.ConnectionListener):
     def on_message(self, frame):
         print(f"Received message: {frame.body}")
         message = frame.body
-        resource = StreamResource(message)
-        specific_slice = StreamDatum(message)
-        print(f"Resource: {resource}")
-        print(f"Specific Slice: {specific_slice}")
+        if message["name"] == "stream_resource":
+            resource = StreamResource(message)
+            print(f"Resource: {resource}")
+            filepath = uri_to_path(resource["uid"])
+            d = resource["uid"]
+            descriptors.add(d)
+            # todo persist this path
+        if message["name"] == "stream_datum":
+            # todo check that it has an existing descriptor and resource
+            if message["doc"]["uid"] not in descriptors:
+                print("no descriptor associated with this datum")
+                return
+            specific_slice = StreamDatum(message)
+            print(f"Specific Slice: {specific_slice}")
+            index = specific_slice["indices"][
+                "start"
+            ]  # here we know that it is only one step
+
         # todo learn to read h5py files based on that description,
         # need empirical data here
         path = resource["uri"]
@@ -83,7 +111,7 @@ class STOMPListener(stomp.ConnectionListener):
         if not isinstance(dataset, h5py.Dataset):
             print("Error: 'data' is not a dataset.")
             return
-
+ # here we know that it is only one step
         image_data = tranform_dataset_into_dto(dataset)
         # todo add a connection so that the davidia app will send the item
 
@@ -111,7 +139,7 @@ if __name__ == "__main__":
     thread_for_stomp = Thread(target=start_stomp_listener)
 
     thread_for_stomp.start()
-    uvicorn.run(app)
+    uvicorn.run(app, port=8001)
 
 
 @app.websocket("/ws")

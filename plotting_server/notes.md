@@ -1,5 +1,7 @@
 # notes
 
+## from the spec meeting
+
 todo add mulitple clients too
 <https://fastapi.tiangolo.com/advanced/websockets/#handling-disconnections-and-multiple-clients>
 
@@ -97,3 +99,10 @@ call a reading library with stream resource
         [1, 1, 1, ..., 1, 1, 1]]], shape=(2, 1216, 1936), dtype=uint8)
 
 > > >
+
+
+## after 7 iterations
+
+started with simple data streaming numpy arrays .
+
+

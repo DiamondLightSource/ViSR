@@ -183,7 +183,7 @@ class Settings(BaseSettings):
 
 @lru_cache
 def get_settings() -> Settings:
-    return Settings()
+    return Settings(hdf_path=file_writing_path)
 
 
 def get_redis() -> redis.Redis:

@@ -19,6 +19,14 @@ class STOMPListener(stomp.ConnectionListener):
             client.send_json(json.loads(message))
 
 
+def start_stomp_listener():
+    conn = stomp.Connection([("localhost", 5672)])
+    conn.set_listener("", STOMPListener())
+    # conn.connect("user", "password", wait=True)
+    conn.connect(wait=True)
+    conn.subscribe(destination="/queue/test", id=1, ack="auto")
+
+
 @app.websocket("/ws/colors")
 async def websocket_endpoint(websocket: WebSocket):
     await websocket.accept()
@@ -32,13 +40,6 @@ async def websocket_endpoint(websocket: WebSocket):
         clients.remove(websocket)
 
 
-def start_stomp_listener():
-    conn = stomp.Connection([("localhost", 5672)])
-    conn.set_listener("", STOMPListener())
-    conn.connect("user", "password", wait=True)
-    conn.subscribe(destination="/queue/test", id=1, ack="auto")
-
-
 if __name__ == "__main__":
     from threading import Thread
 
@@ -48,4 +49,4 @@ if __name__ == "__main__":
     thread = Thread(target=start_stomp_listener)
     thread.start()
 
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run(app, host="0.0.0.0", port=8004)

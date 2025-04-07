@@ -1,0 +1,1912 @@
+{
+    "datetime": "2025-04-07T11:40:51.492779000+01:00 2025-04-07 10:40:51,492",
+    "description": "this is fromrunning a demo plan on 07.04.2025",
+    "events": [
+        {
+            "name": "start",
+            "doc": {
+                "uid": "69d9f931-f352-4bd3-91dd-a5704f6079c3",
+                "time": 1744022451.496038,
+                "versions": {
+                    "ophyd": "1.10.0",
+                    "bluesky": "1.13.1"
+                },
+                "scan_id": 6,
+                "plan_type": "generator",
+                "plan_name": "demo_plan",
+                "detectors": [
+                    "manta"
+                ],
+                "motors": [
+                    "sample_stage"
+                ],
+                "plan_args": {
+                    "exposure": 1.0
+                },
+                "hints": {},
+                "data_session": "c01-6"
+            }
+        },
+        {
+            "name": "descriptor",
+            "doc": {
+                "configuration": {
+                    "manta": {
+                        "data": {
+                            "manta-driver-acquire_period": 0.1,
+                            "manta-driver-acquire_time": 0.200002
+                        },
+                        "timestamps": {
+                            "manta-driver-acquire_period": 1743961183.071932,
+                            "manta-driver-acquire_time": 1744022451.526946
+                        },
+                        "data_keys": {
+                            "manta-driver-acquire_period": {
+                                "dtype": "number",
+                                "shape": [],
+                                "dtype_numpy": "<f8",
+                                "source": "ca://BL01C-DI-DCAM-02:CAM:AcquirePeriod_RBV",
+                                "units": "",
+                                "precision": 3
+                            },
+                            "manta-driver-acquire_time": {
+                                "dtype": "number",
+                                "shape": [],
+                                "dtype_numpy": "<f8",
+                                "source": "ca://BL01C-DI-DCAM-02:CAM:AcquireTime_RBV",
+                                "units": "",
+                                "precision": 3
+                            }
+                        }
+                    }
+                },
+                "data_keys": {
+                    "manta": {
+                        "source": "ca://BL01C-DI-DCAM-02:HDF5:FullFileName_RBV",
+                        "shape": [
+                            1216,
+                            1936
+                        ],
+                        "dtype": "array",
+                        "dtype_numpy": "|u1",
+                        "external": "STREAM:",
+                        "object_name": "manta"
+                    }
+                },
+                "name": "primary",
+                "object_keys": {
+                    "manta": [
+                        "manta"
+                    ]
+                },
+                "run_start": "69d9f931-f352-4bd3-91dd-a5704f6079c3",
+                "time": 1744022453.5929534,
+                "uid": "116a84db-ccb2-4382-8fba-10987fc350c0",
+                "hints": {
+                    "manta": {
+                        "fields": [
+                            "manta"
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "name": "stream_resource",
+            "doc": {
+                "uid": "7d16802b-a492-4f0b-a7ca-ba167d635837",
+                "data_key": "manta",
+                "mimetype": "application/x-hdf5",
+                "uri": "file://localhost/dls/b01-1/data/2025/cm40661-1/c01-6-manta.h5",
+                "parameters": {
+                    "dataset": "/entry/data/data",
+                    "swmr": false,
+                    "multiplier": 1,
+                    "chunk_shape": [
+                        1,
+                        1216,
+                        1936
+                    ]
+                },
+                "run_start": "69d9f931-f352-4bd3-91dd-a5704f6079c3"
+            }
+        },
+        {
+            "name": "stream_datum",
+            "doc": {
+                "stream_resource": "7d16802b-a492-4f0b-a7ca-ba167d635837",
+                "uid": "7d16802b-a492-4f0b-a7ca-ba167d635837/0",
+                "seq_nums": {
+                    "start": 1,
+                    "stop": 2
+                },
+                "indices": {
+                    "start": 0,
+                    "stop": 1
+                },
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "event",
+            "doc": {
+                "uid": "b85617b8-d74b-4948-9319-29721e3502c1",
+                "time": 1744022453.5950172,
+                "data": {},
+                "timestamps": {},
+                "seq_num": 1,
+                "filled": {},
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "stream_datum",
+            "doc": {
+                "stream_resource": "7d16802b-a492-4f0b-a7ca-ba167d635837",
+                "uid": "7d16802b-a492-4f0b-a7ca-ba167d635837/1",
+                "seq_nums": {
+                    "start": 2,
+                    "stop": 3
+                },
+                "indices": {
+                    "start": 1,
+                    "stop": 2
+                },
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "event",
+            "doc": {
+                "uid": "2b462348-729f-4e99-afb1-ca04af3b9ea4",
+                "time": 1744022455.5516908,
+                "data": {},
+                "timestamps": {},
+                "seq_num": 2,
+                "filled": {},
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "stream_datum",
+            "doc": {
+                "stream_resource": "7d16802b-a492-4f0b-a7ca-ba167d635837",
+                "uid": "7d16802b-a492-4f0b-a7ca-ba167d635837/2",
+                "seq_nums": {
+                    "start": 3,
+                    "stop": 4
+                },
+                "indices": {
+                    "start": 2,
+                    "stop": 3
+                },
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "event",
+            "doc": {
+                "uid": "9839298b-d152-4521-9b40-a544b1c158e2",
+                "time": 1744022456.8667736,
+                "data": {},
+                "timestamps": {},
+                "seq_num": 3,
+                "filled": {},
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "stream_datum",
+            "doc": {
+                "stream_resource": "7d16802b-a492-4f0b-a7ca-ba167d635837",
+                "uid": "7d16802b-a492-4f0b-a7ca-ba167d635837/3",
+                "seq_nums": {
+                    "start": 4,
+                    "stop": 5
+                },
+                "indices": {
+                    "start": 3,
+                    "stop": 4
+                },
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "event",
+            "doc": {
+                "uid": "1a64f530-e67d-4a80-adca-0b46340065b5",
+                "time": 1744022458.8237863,
+                "data": {},
+                "timestamps": {},
+                "seq_num": 4,
+                "filled": {},
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "stream_datum",
+            "doc": {
+                "stream_resource": "7d16802b-a492-4f0b-a7ca-ba167d635837",
+                "uid": "7d16802b-a492-4f0b-a7ca-ba167d635837/4",
+                "seq_nums": {
+                    "start": 5,
+                    "stop": 6
+                },
+                "indices": {
+                    "start": 4,
+                    "stop": 5
+                },
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "event",
+            "doc": {
+                "uid": "fa76eaba-2b77-4cd4-b61f-5bf916781311",
+                "time": 1744022460.675543,
+                "data": {},
+                "timestamps": {},
+                "seq_num": 5,
+                "filled": {},
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "stream_datum",
+            "doc": {
+                "stream_resource": "7d16802b-a492-4f0b-a7ca-ba167d635837",
+                "uid": "7d16802b-a492-4f0b-a7ca-ba167d635837/5",
+                "seq_nums": {
+                    "start": 6,
+                    "stop": 7
+                },
+                "indices": {
+                    "start": 5,
+                    "stop": 6
+                },
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "event",
+            "doc": {
+                "uid": "4f85e612-ded3-45cf-a96f-c670eef1e6c3",
+                "time": 1744022461.9965103,
+                "data": {},
+                "timestamps": {},
+                "seq_num": 6,
+                "filled": {},
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "stream_datum",
+            "doc": {
+                "stream_resource": "7d16802b-a492-4f0b-a7ca-ba167d635837",
+                "uid": "7d16802b-a492-4f0b-a7ca-ba167d635837/6",
+                "seq_nums": {
+                    "start": 7,
+                    "stop": 8
+                },
+                "indices": {
+                    "start": 6,
+                    "stop": 7
+                },
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "event",
+            "doc": {
+                "uid": "5175ab25-722f-40d0-bdc1-ba50caba1999",
+                "time": 1744022463.3140988,
+                "data": {},
+                "timestamps": {},
+                "seq_num": 7,
+                "filled": {},
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "stream_datum",
+            "doc": {
+                "stream_resource": "7d16802b-a492-4f0b-a7ca-ba167d635837",
+                "uid": "7d16802b-a492-4f0b-a7ca-ba167d635837/7",
+                "seq_nums": {
+                    "start": 8,
+                    "stop": 9
+                },
+                "indices": {
+                    "start": 7,
+                    "stop": 8
+                },
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "event",
+            "doc": {
+                "uid": "b1444b64-c674-4318-a5dd-de3a2cf0afeb",
+                "time": 1744022465.2705085,
+                "data": {},
+                "timestamps": {},
+                "seq_num": 8,
+                "filled": {},
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "stream_datum",
+            "doc": {
+                "stream_resource": "7d16802b-a492-4f0b-a7ca-ba167d635837",
+                "uid": "7d16802b-a492-4f0b-a7ca-ba167d635837/8",
+                "seq_nums": {
+                    "start": 9,
+                    "stop": 10
+                },
+                "indices": {
+                    "start": 8,
+                    "stop": 9
+                },
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "event",
+            "doc": {
+                "uid": "5f6241ee-59db-4a3b-9d53-bec482540d49",
+                "time": 1744022467.2264059,
+                "data": {},
+                "timestamps": {},
+                "seq_num": 9,
+                "filled": {},
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "stream_datum",
+            "doc": {
+                "stream_resource": "7d16802b-a492-4f0b-a7ca-ba167d635837",
+                "uid": "7d16802b-a492-4f0b-a7ca-ba167d635837/9",
+                "seq_nums": {
+                    "start": 10,
+                    "stop": 11
+                },
+                "indices": {
+                    "start": 9,
+                    "stop": 10
+                },
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "event",
+            "doc": {
+                "uid": "6e95e348-f6ca-4293-981b-ef1c27e1808d",
+                "time": 1744022468.6387408,
+                "data": {},
+                "timestamps": {},
+                "seq_num": 10,
+                "filled": {},
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "stream_datum",
+            "doc": {
+                "stream_resource": "7d16802b-a492-4f0b-a7ca-ba167d635837",
+                "uid": "7d16802b-a492-4f0b-a7ca-ba167d635837/10",
+                "seq_nums": {
+                    "start": 11,
+                    "stop": 12
+                },
+                "indices": {
+                    "start": 10,
+                    "stop": 11
+                },
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "event",
+            "doc": {
+                "uid": "1ea6b22c-8f3a-49ee-ba42-d6111b0f85a9",
+                "time": 1744022470.0647902,
+                "data": {},
+                "timestamps": {},
+                "seq_num": 11,
+                "filled": {},
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "stream_datum",
+            "doc": {
+                "stream_resource": "7d16802b-a492-4f0b-a7ca-ba167d635837",
+                "uid": "7d16802b-a492-4f0b-a7ca-ba167d635837/11",
+                "seq_nums": {
+                    "start": 12,
+                    "stop": 13
+                },
+                "indices": {
+                    "start": 11,
+                    "stop": 12
+                },
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "event",
+            "doc": {
+                "uid": "f193e8d4-f539-44d3-a857-fe9e2f44c641",
+                "time": 1744022471.491355,
+                "data": {},
+                "timestamps": {},
+                "seq_num": 12,
+                "filled": {},
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "stream_datum",
+            "doc": {
+                "stream_resource": "7d16802b-a492-4f0b-a7ca-ba167d635837",
+                "uid": "7d16802b-a492-4f0b-a7ca-ba167d635837/12",
+                "seq_nums": {
+                    "start": 13,
+                    "stop": 14
+                },
+                "indices": {
+                    "start": 12,
+                    "stop": 13
+                },
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "event",
+            "doc": {
+                "uid": "0210ed75-2579-432a-93cf-33d83b5da928",
+                "time": 1744022472.8058233,
+                "data": {},
+                "timestamps": {},
+                "seq_num": 13,
+                "filled": {},
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "stream_datum",
+            "doc": {
+                "stream_resource": "7d16802b-a492-4f0b-a7ca-ba167d635837",
+                "uid": "7d16802b-a492-4f0b-a7ca-ba167d635837/13",
+                "seq_nums": {
+                    "start": 14,
+                    "stop": 15
+                },
+                "indices": {
+                    "start": 13,
+                    "stop": 14
+                },
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "event",
+            "doc": {
+                "uid": "8cb68e68-09f3-47bd-b4a5-782b62003c01",
+                "time": 1744022474.1264195,
+                "data": {},
+                "timestamps": {},
+                "seq_num": 14,
+                "filled": {},
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "stream_datum",
+            "doc": {
+                "stream_resource": "7d16802b-a492-4f0b-a7ca-ba167d635837",
+                "uid": "7d16802b-a492-4f0b-a7ca-ba167d635837/14",
+                "seq_nums": {
+                    "start": 15,
+                    "stop": 16
+                },
+                "indices": {
+                    "start": 14,
+                    "stop": 15
+                },
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "event",
+            "doc": {
+                "uid": "7f42c085-74fa-4c27-9748-60569ed93c9c",
+                "time": 1744022475.9760575,
+                "data": {},
+                "timestamps": {},
+                "seq_num": 15,
+                "filled": {},
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "stream_datum",
+            "doc": {
+                "stream_resource": "7d16802b-a492-4f0b-a7ca-ba167d635837",
+                "uid": "7d16802b-a492-4f0b-a7ca-ba167d635837/15",
+                "seq_nums": {
+                    "start": 16,
+                    "stop": 17
+                },
+                "indices": {
+                    "start": 15,
+                    "stop": 16
+                },
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "event",
+            "doc": {
+                "uid": "f6b722e3-acaa-490d-80ca-b98d57b7782d",
+                "time": 1744022477.8285072,
+                "data": {},
+                "timestamps": {},
+                "seq_num": 16,
+                "filled": {},
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "stream_datum",
+            "doc": {
+                "stream_resource": "7d16802b-a492-4f0b-a7ca-ba167d635837",
+                "uid": "7d16802b-a492-4f0b-a7ca-ba167d635837/16",
+                "seq_nums": {
+                    "start": 17,
+                    "stop": 18
+                },
+                "indices": {
+                    "start": 16,
+                    "stop": 17
+                },
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "event",
+            "doc": {
+                "uid": "085c55af-c1e1-4e06-9817-198a0cdde154",
+                "time": 1744022479.1467595,
+                "data": {},
+                "timestamps": {},
+                "seq_num": 17,
+                "filled": {},
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "stream_datum",
+            "doc": {
+                "stream_resource": "7d16802b-a492-4f0b-a7ca-ba167d635837",
+                "uid": "7d16802b-a492-4f0b-a7ca-ba167d635837/17",
+                "seq_nums": {
+                    "start": 18,
+                    "stop": 19
+                },
+                "indices": {
+                    "start": 17,
+                    "stop": 18
+                },
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "event",
+            "doc": {
+                "uid": "9744bb46-f6e8-426d-bb90-242b06679181",
+                "time": 1744022481.104477,
+                "data": {},
+                "timestamps": {},
+                "seq_num": 18,
+                "filled": {},
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "stream_datum",
+            "doc": {
+                "stream_resource": "7d16802b-a492-4f0b-a7ca-ba167d635837",
+                "uid": "7d16802b-a492-4f0b-a7ca-ba167d635837/18",
+                "seq_nums": {
+                    "start": 19,
+                    "stop": 20
+                },
+                "indices": {
+                    "start": 18,
+                    "stop": 19
+                },
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "event",
+            "doc": {
+                "uid": "b8b9778c-fd7c-46c6-a6a0-dd376bde433e",
+                "time": 1744022482.5175388,
+                "data": {},
+                "timestamps": {},
+                "seq_num": 19,
+                "filled": {},
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "stream_datum",
+            "doc": {
+                "stream_resource": "7d16802b-a492-4f0b-a7ca-ba167d635837",
+                "uid": "7d16802b-a492-4f0b-a7ca-ba167d635837/19",
+                "seq_nums": {
+                    "start": 20,
+                    "stop": 21
+                },
+                "indices": {
+                    "start": 19,
+                    "stop": 20
+                },
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "event",
+            "doc": {
+                "uid": "e1e48176-98ff-4af7-8e5c-416c038b1c45",
+                "time": 1744022483.9421875,
+                "data": {},
+                "timestamps": {},
+                "seq_num": 20,
+                "filled": {},
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "stream_datum",
+            "doc": {
+                "stream_resource": "7d16802b-a492-4f0b-a7ca-ba167d635837",
+                "uid": "7d16802b-a492-4f0b-a7ca-ba167d635837/20",
+                "seq_nums": {
+                    "start": 21,
+                    "stop": 22
+                },
+                "indices": {
+                    "start": 20,
+                    "stop": 21
+                },
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "event",
+            "doc": {
+                "uid": "741a3a14-6078-4103-b62a-26e59bfc98f8",
+                "time": 1744022485.2585704,
+                "data": {},
+                "timestamps": {},
+                "seq_num": 21,
+                "filled": {},
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "stream_datum",
+            "doc": {
+                "stream_resource": "7d16802b-a492-4f0b-a7ca-ba167d635837",
+                "uid": "7d16802b-a492-4f0b-a7ca-ba167d635837/21",
+                "seq_nums": {
+                    "start": 22,
+                    "stop": 23
+                },
+                "indices": {
+                    "start": 21,
+                    "stop": 22
+                },
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "event",
+            "doc": {
+                "uid": "a256b01c-735d-43e1-b18f-1fbb4157cf77",
+                "time": 1744022487.1469145,
+                "data": {},
+                "timestamps": {},
+                "seq_num": 22,
+                "filled": {},
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "stream_datum",
+            "doc": {
+                "stream_resource": "7d16802b-a492-4f0b-a7ca-ba167d635837",
+                "uid": "7d16802b-a492-4f0b-a7ca-ba167d635837/22",
+                "seq_nums": {
+                    "start": 23,
+                    "stop": 24
+                },
+                "indices": {
+                    "start": 22,
+                    "stop": 23
+                },
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "event",
+            "doc": {
+                "uid": "065bcb31-cbb6-4c91-aad9-40ce84f957f9",
+                "time": 1744022488.9906998,
+                "data": {},
+                "timestamps": {},
+                "seq_num": 23,
+                "filled": {},
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "stream_datum",
+            "doc": {
+                "stream_resource": "7d16802b-a492-4f0b-a7ca-ba167d635837",
+                "uid": "7d16802b-a492-4f0b-a7ca-ba167d635837/23",
+                "seq_nums": {
+                    "start": 24,
+                    "stop": 25
+                },
+                "indices": {
+                    "start": 23,
+                    "stop": 24
+                },
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "event",
+            "doc": {
+                "uid": "ba93ef9d-9e01-4964-ae45-815110862cba",
+                "time": 1744022490.939307,
+                "data": {},
+                "timestamps": {},
+                "seq_num": 24,
+                "filled": {},
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "stream_datum",
+            "doc": {
+                "stream_resource": "7d16802b-a492-4f0b-a7ca-ba167d635837",
+                "uid": "7d16802b-a492-4f0b-a7ca-ba167d635837/24",
+                "seq_nums": {
+                    "start": 25,
+                    "stop": 26
+                },
+                "indices": {
+                    "start": 24,
+                    "stop": 25
+                },
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "event",
+            "doc": {
+                "uid": "82439ac5-b8d2-4fcf-9caf-155586c9fa1f",
+                "time": 1744022492.8953555,
+                "data": {},
+                "timestamps": {},
+                "seq_num": 25,
+                "filled": {},
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "stream_datum",
+            "doc": {
+                "stream_resource": "7d16802b-a492-4f0b-a7ca-ba167d635837",
+                "uid": "7d16802b-a492-4f0b-a7ca-ba167d635837/25",
+                "seq_nums": {
+                    "start": 26,
+                    "stop": 27
+                },
+                "indices": {
+                    "start": 25,
+                    "stop": 26
+                },
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "event",
+            "doc": {
+                "uid": "6f3accfe-5e7c-4055-addd-50d6369e8b5b",
+                "time": 1744022494.8506672,
+                "data": {},
+                "timestamps": {},
+                "seq_num": 26,
+                "filled": {},
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "stream_datum",
+            "doc": {
+                "stream_resource": "7d16802b-a492-4f0b-a7ca-ba167d635837",
+                "uid": "7d16802b-a492-4f0b-a7ca-ba167d635837/26",
+                "seq_nums": {
+                    "start": 27,
+                    "stop": 28
+                },
+                "indices": {
+                    "start": 26,
+                    "stop": 27
+                },
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "event",
+            "doc": {
+                "uid": "1e93837c-4c31-420c-9db6-7c79113f94db",
+                "time": 1744022496.17216,
+                "data": {},
+                "timestamps": {},
+                "seq_num": 27,
+                "filled": {},
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "stream_datum",
+            "doc": {
+                "stream_resource": "7d16802b-a492-4f0b-a7ca-ba167d635837",
+                "uid": "7d16802b-a492-4f0b-a7ca-ba167d635837/27",
+                "seq_nums": {
+                    "start": 28,
+                    "stop": 29
+                },
+                "indices": {
+                    "start": 27,
+                    "stop": 28
+                },
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "event",
+            "doc": {
+                "uid": "04a1f412-49ee-453c-aa88-c9d70a0bd322",
+                "time": 1744022497.4921992,
+                "data": {},
+                "timestamps": {},
+                "seq_num": 28,
+                "filled": {},
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "stream_datum",
+            "doc": {
+                "stream_resource": "7d16802b-a492-4f0b-a7ca-ba167d635837",
+                "uid": "7d16802b-a492-4f0b-a7ca-ba167d635837/28",
+                "seq_nums": {
+                    "start": 29,
+                    "stop": 30
+                },
+                "indices": {
+                    "start": 28,
+                    "stop": 29
+                },
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "event",
+            "doc": {
+                "uid": "7ba43473-b30a-4659-8d0d-b22058ffc0bf",
+                "time": 1744022498.9119017,
+                "data": {},
+                "timestamps": {},
+                "seq_num": 29,
+                "filled": {},
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "stream_datum",
+            "doc": {
+                "stream_resource": "7d16802b-a492-4f0b-a7ca-ba167d635837",
+                "uid": "7d16802b-a492-4f0b-a7ca-ba167d635837/29",
+                "seq_nums": {
+                    "start": 30,
+                    "stop": 31
+                },
+                "indices": {
+                    "start": 29,
+                    "stop": 30
+                },
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "event",
+            "doc": {
+                "uid": "69d07e78-bc4c-43f5-83e2-ae6a3b17615b",
+                "time": 1744022500.231093,
+                "data": {},
+                "timestamps": {},
+                "seq_num": 30,
+                "filled": {},
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "stream_datum",
+            "doc": {
+                "stream_resource": "7d16802b-a492-4f0b-a7ca-ba167d635837",
+                "uid": "7d16802b-a492-4f0b-a7ca-ba167d635837/30",
+                "seq_nums": {
+                    "start": 31,
+                    "stop": 32
+                },
+                "indices": {
+                    "start": 30,
+                    "stop": 31
+                },
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "event",
+            "doc": {
+                "uid": "81ac01d6-1f2f-40fe-9d28-4fa35630e044",
+                "time": 1744022501.5521,
+                "data": {},
+                "timestamps": {},
+                "seq_num": 31,
+                "filled": {},
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "stream_datum",
+            "doc": {
+                "stream_resource": "7d16802b-a492-4f0b-a7ca-ba167d635837",
+                "uid": "7d16802b-a492-4f0b-a7ca-ba167d635837/31",
+                "seq_nums": {
+                    "start": 32,
+                    "stop": 33
+                },
+                "indices": {
+                    "start": 31,
+                    "stop": 32
+                },
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "event",
+            "doc": {
+                "uid": "ca51b413-cf41-4719-80e8-0afc2df140df",
+                "time": 1744022502.8653529,
+                "data": {},
+                "timestamps": {},
+                "seq_num": 32,
+                "filled": {},
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "stream_datum",
+            "doc": {
+                "stream_resource": "7d16802b-a492-4f0b-a7ca-ba167d635837",
+                "uid": "7d16802b-a492-4f0b-a7ca-ba167d635837/32",
+                "seq_nums": {
+                    "start": 33,
+                    "stop": 34
+                },
+                "indices": {
+                    "start": 32,
+                    "stop": 33
+                },
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "event",
+            "doc": {
+                "uid": "7d19b247-d0ab-47c0-a26d-720319237667",
+                "time": 1744022504.7233436,
+                "data": {},
+                "timestamps": {},
+                "seq_num": 33,
+                "filled": {},
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "stream_datum",
+            "doc": {
+                "stream_resource": "7d16802b-a492-4f0b-a7ca-ba167d635837",
+                "uid": "7d16802b-a492-4f0b-a7ca-ba167d635837/33",
+                "seq_nums": {
+                    "start": 34,
+                    "stop": 35
+                },
+                "indices": {
+                    "start": 33,
+                    "stop": 34
+                },
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "event",
+            "doc": {
+                "uid": "f22e98fb-dda8-43ef-96ad-75eb90be23a7",
+                "time": 1744022506.0413334,
+                "data": {},
+                "timestamps": {},
+                "seq_num": 34,
+                "filled": {},
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "stream_datum",
+            "doc": {
+                "stream_resource": "7d16802b-a492-4f0b-a7ca-ba167d635837",
+                "uid": "7d16802b-a492-4f0b-a7ca-ba167d635837/34",
+                "seq_nums": {
+                    "start": 35,
+                    "stop": 36
+                },
+                "indices": {
+                    "start": 34,
+                    "stop": 35
+                },
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "event",
+            "doc": {
+                "uid": "a87a5b14-765f-47c7-b158-04c92587d4ec",
+                "time": 1744022507.3627734,
+                "data": {},
+                "timestamps": {},
+                "seq_num": 35,
+                "filled": {},
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "stream_datum",
+            "doc": {
+                "stream_resource": "7d16802b-a492-4f0b-a7ca-ba167d635837",
+                "uid": "7d16802b-a492-4f0b-a7ca-ba167d635837/35",
+                "seq_nums": {
+                    "start": 36,
+                    "stop": 37
+                },
+                "indices": {
+                    "start": 35,
+                    "stop": 36
+                },
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "event",
+            "doc": {
+                "uid": "43cc3f9b-85a6-4a73-a3b5-4f67e66c2cd8",
+                "time": 1744022509.3176453,
+                "data": {},
+                "timestamps": {},
+                "seq_num": 36,
+                "filled": {},
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "stream_datum",
+            "doc": {
+                "stream_resource": "7d16802b-a492-4f0b-a7ca-ba167d635837",
+                "uid": "7d16802b-a492-4f0b-a7ca-ba167d635837/36",
+                "seq_nums": {
+                    "start": 37,
+                    "stop": 38
+                },
+                "indices": {
+                    "start": 36,
+                    "stop": 37
+                },
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "event",
+            "doc": {
+                "uid": "a8b030d3-9175-4881-b840-8e984ca2ca7e",
+                "time": 1744022510.7358918,
+                "data": {},
+                "timestamps": {},
+                "seq_num": 37,
+                "filled": {},
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "stream_datum",
+            "doc": {
+                "stream_resource": "7d16802b-a492-4f0b-a7ca-ba167d635837",
+                "uid": "7d16802b-a492-4f0b-a7ca-ba167d635837/37",
+                "seq_nums": {
+                    "start": 38,
+                    "stop": 39
+                },
+                "indices": {
+                    "start": 37,
+                    "stop": 38
+                },
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "event",
+            "doc": {
+                "uid": "c3afae11-1e2c-4689-96d0-ffacec9facd4",
+                "time": 1744022512.6949563,
+                "data": {},
+                "timestamps": {},
+                "seq_num": 38,
+                "filled": {},
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "stream_datum",
+            "doc": {
+                "stream_resource": "7d16802b-a492-4f0b-a7ca-ba167d635837",
+                "uid": "7d16802b-a492-4f0b-a7ca-ba167d635837/38",
+                "seq_nums": {
+                    "start": 39,
+                    "stop": 40
+                },
+                "indices": {
+                    "start": 38,
+                    "stop": 39
+                },
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "event",
+            "doc": {
+                "uid": "23cef916-db66-4c41-bcc5-7f65c9a23e93",
+                "time": 1744022514.0132747,
+                "data": {},
+                "timestamps": {},
+                "seq_num": 39,
+                "filled": {},
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "stream_datum",
+            "doc": {
+                "stream_resource": "7d16802b-a492-4f0b-a7ca-ba167d635837",
+                "uid": "7d16802b-a492-4f0b-a7ca-ba167d635837/39",
+                "seq_nums": {
+                    "start": 40,
+                    "stop": 41
+                },
+                "indices": {
+                    "start": 39,
+                    "stop": 40
+                },
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "event",
+            "doc": {
+                "uid": "22f8887b-b716-419d-bb87-36fa8ad6416b",
+                "time": 1744022515.3329303,
+                "data": {},
+                "timestamps": {},
+                "seq_num": 40,
+                "filled": {},
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "stream_datum",
+            "doc": {
+                "stream_resource": "7d16802b-a492-4f0b-a7ca-ba167d635837",
+                "uid": "7d16802b-a492-4f0b-a7ca-ba167d635837/40",
+                "seq_nums": {
+                    "start": 41,
+                    "stop": 42
+                },
+                "indices": {
+                    "start": 40,
+                    "stop": 41
+                },
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "event",
+            "doc": {
+                "uid": "0b73e533-901d-47f6-8f6f-573ff5305431",
+                "time": 1744022517.1836379,
+                "data": {},
+                "timestamps": {},
+                "seq_num": 41,
+                "filled": {},
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "stream_datum",
+            "doc": {
+                "stream_resource": "7d16802b-a492-4f0b-a7ca-ba167d635837",
+                "uid": "7d16802b-a492-4f0b-a7ca-ba167d635837/41",
+                "seq_nums": {
+                    "start": 42,
+                    "stop": 43
+                },
+                "indices": {
+                    "start": 41,
+                    "stop": 42
+                },
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "event",
+            "doc": {
+                "uid": "649d0911-1476-46ba-ab54-9e121930bb6a",
+                "time": 1744022518.4972847,
+                "data": {},
+                "timestamps": {},
+                "seq_num": 42,
+                "filled": {},
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "stream_datum",
+            "doc": {
+                "stream_resource": "7d16802b-a492-4f0b-a7ca-ba167d635837",
+                "uid": "7d16802b-a492-4f0b-a7ca-ba167d635837/42",
+                "seq_nums": {
+                    "start": 43,
+                    "stop": 44
+                },
+                "indices": {
+                    "start": 42,
+                    "stop": 43
+                },
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "event",
+            "doc": {
+                "uid": "0b9f25cc-52a7-46cd-bcf2-7e3b15acefc3",
+                "time": 1744022519.8159378,
+                "data": {},
+                "timestamps": {},
+                "seq_num": 43,
+                "filled": {},
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "stream_datum",
+            "doc": {
+                "stream_resource": "7d16802b-a492-4f0b-a7ca-ba167d635837",
+                "uid": "7d16802b-a492-4f0b-a7ca-ba167d635837/43",
+                "seq_nums": {
+                    "start": 44,
+                    "stop": 45
+                },
+                "indices": {
+                    "start": 43,
+                    "stop": 44
+                },
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "event",
+            "doc": {
+                "uid": "9c104344-a8e7-48f0-ad8b-c429608bfd3a",
+                "time": 1744022521.1376061,
+                "data": {},
+                "timestamps": {},
+                "seq_num": 44,
+                "filled": {},
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "stream_datum",
+            "doc": {
+                "stream_resource": "7d16802b-a492-4f0b-a7ca-ba167d635837",
+                "uid": "7d16802b-a492-4f0b-a7ca-ba167d635837/44",
+                "seq_nums": {
+                    "start": 45,
+                    "stop": 46
+                },
+                "indices": {
+                    "start": 44,
+                    "stop": 45
+                },
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "event",
+            "doc": {
+                "uid": "feac732d-a339-4b59-a9e4-8ac9d991edee",
+                "time": 1744022523.0938594,
+                "data": {},
+                "timestamps": {},
+                "seq_num": 45,
+                "filled": {},
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "stream_datum",
+            "doc": {
+                "stream_resource": "7d16802b-a492-4f0b-a7ca-ba167d635837",
+                "uid": "7d16802b-a492-4f0b-a7ca-ba167d635837/45",
+                "seq_nums": {
+                    "start": 46,
+                    "stop": 47
+                },
+                "indices": {
+                    "start": 45,
+                    "stop": 46
+                },
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "event",
+            "doc": {
+                "uid": "dcbd91fb-971a-42a7-899b-2b22babe6d9a",
+                "time": 1744022524.5136828,
+                "data": {},
+                "timestamps": {},
+                "seq_num": 46,
+                "filled": {},
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "stream_datum",
+            "doc": {
+                "stream_resource": "7d16802b-a492-4f0b-a7ca-ba167d635837",
+                "uid": "7d16802b-a492-4f0b-a7ca-ba167d635837/46",
+                "seq_nums": {
+                    "start": 47,
+                    "stop": 48
+                },
+                "indices": {
+                    "start": 46,
+                    "stop": 47
+                },
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "event",
+            "doc": {
+                "uid": "f9aa1d96-56a1-4fb9-a2ab-6b7db29bb3b4",
+                "time": 1744022525.9398587,
+                "data": {},
+                "timestamps": {},
+                "seq_num": 47,
+                "filled": {},
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "stream_datum",
+            "doc": {
+                "stream_resource": "7d16802b-a492-4f0b-a7ca-ba167d635837",
+                "uid": "7d16802b-a492-4f0b-a7ca-ba167d635837/47",
+                "seq_nums": {
+                    "start": 48,
+                    "stop": 49
+                },
+                "indices": {
+                    "start": 47,
+                    "stop": 48
+                },
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "event",
+            "doc": {
+                "uid": "9b5750db-fd29-496c-8129-99af9f5db7d4",
+                "time": 1744022527.2627096,
+                "data": {},
+                "timestamps": {},
+                "seq_num": 48,
+                "filled": {},
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "stream_datum",
+            "doc": {
+                "stream_resource": "7d16802b-a492-4f0b-a7ca-ba167d635837",
+                "uid": "7d16802b-a492-4f0b-a7ca-ba167d635837/48",
+                "seq_nums": {
+                    "start": 49,
+                    "stop": 50
+                },
+                "indices": {
+                    "start": 48,
+                    "stop": 49
+                },
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "event",
+            "doc": {
+                "uid": "878bf16f-ea6b-4180-bbc8-62123a8073a6",
+                "time": 1744022528.576531,
+                "data": {},
+                "timestamps": {},
+                "seq_num": 49,
+                "filled": {},
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "stream_datum",
+            "doc": {
+                "stream_resource": "7d16802b-a492-4f0b-a7ca-ba167d635837",
+                "uid": "7d16802b-a492-4f0b-a7ca-ba167d635837/49",
+                "seq_nums": {
+                    "start": 50,
+                    "stop": 51
+                },
+                "indices": {
+                    "start": 49,
+                    "stop": 50
+                },
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "event",
+            "doc": {
+                "uid": "5cadb92f-c70f-48ed-808d-5d0e30f4fcc1",
+                "time": 1744022530.425491,
+                "data": {},
+                "timestamps": {},
+                "seq_num": 50,
+                "filled": {},
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "stream_datum",
+            "doc": {
+                "stream_resource": "7d16802b-a492-4f0b-a7ca-ba167d635837",
+                "uid": "7d16802b-a492-4f0b-a7ca-ba167d635837/50",
+                "seq_nums": {
+                    "start": 51,
+                    "stop": 52
+                },
+                "indices": {
+                    "start": 50,
+                    "stop": 51
+                },
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "event",
+            "doc": {
+                "uid": "8d8d58db-6099-4e0d-b73d-c1045ee89dd8",
+                "time": 1744022532.2789056,
+                "data": {},
+                "timestamps": {},
+                "seq_num": 51,
+                "filled": {},
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "stream_datum",
+            "doc": {
+                "stream_resource": "7d16802b-a492-4f0b-a7ca-ba167d635837",
+                "uid": "7d16802b-a492-4f0b-a7ca-ba167d635837/51",
+                "seq_nums": {
+                    "start": 52,
+                    "stop": 53
+                },
+                "indices": {
+                    "start": 51,
+                    "stop": 52
+                },
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "event",
+            "doc": {
+                "uid": "0253bb70-7db0-4ae7-8e80-45ac7d51f0e8",
+                "time": 1744022533.5986717,
+                "data": {},
+                "timestamps": {},
+                "seq_num": 52,
+                "filled": {},
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "stream_datum",
+            "doc": {
+                "stream_resource": "7d16802b-a492-4f0b-a7ca-ba167d635837",
+                "uid": "7d16802b-a492-4f0b-a7ca-ba167d635837/52",
+                "seq_nums": {
+                    "start": 53,
+                    "stop": 54
+                },
+                "indices": {
+                    "start": 52,
+                    "stop": 53
+                },
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "event",
+            "doc": {
+                "uid": "4264c029-a493-4429-b05d-340809bdb00f",
+                "time": 1744022534.912886,
+                "data": {},
+                "timestamps": {},
+                "seq_num": 53,
+                "filled": {},
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "stream_datum",
+            "doc": {
+                "stream_resource": "7d16802b-a492-4f0b-a7ca-ba167d635837",
+                "uid": "7d16802b-a492-4f0b-a7ca-ba167d635837/53",
+                "seq_nums": {
+                    "start": 54,
+                    "stop": 55
+                },
+                "indices": {
+                    "start": 53,
+                    "stop": 54
+                },
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "event",
+            "doc": {
+                "uid": "5986f243-f82a-47f3-8a6e-754cf8c6b95e",
+                "time": 1744022536.235635,
+                "data": {},
+                "timestamps": {},
+                "seq_num": 54,
+                "filled": {},
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "stream_datum",
+            "doc": {
+                "stream_resource": "7d16802b-a492-4f0b-a7ca-ba167d635837",
+                "uid": "7d16802b-a492-4f0b-a7ca-ba167d635837/54",
+                "seq_nums": {
+                    "start": 55,
+                    "stop": 56
+                },
+                "indices": {
+                    "start": 54,
+                    "stop": 55
+                },
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "event",
+            "doc": {
+                "uid": "1cb7b19e-10ac-495d-90ef-c516513c40ce",
+                "time": 1744022537.5545375,
+                "data": {},
+                "timestamps": {},
+                "seq_num": 55,
+                "filled": {},
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "stream_datum",
+            "doc": {
+                "stream_resource": "7d16802b-a492-4f0b-a7ca-ba167d635837",
+                "uid": "7d16802b-a492-4f0b-a7ca-ba167d635837/55",
+                "seq_nums": {
+                    "start": 56,
+                    "stop": 57
+                },
+                "indices": {
+                    "start": 55,
+                    "stop": 56
+                },
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "event",
+            "doc": {
+                "uid": "b3fe1598-591a-466b-a045-b6670f111058",
+                "time": 1744022539.5117824,
+                "data": {},
+                "timestamps": {},
+                "seq_num": 56,
+                "filled": {},
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "stream_datum",
+            "doc": {
+                "stream_resource": "7d16802b-a492-4f0b-a7ca-ba167d635837",
+                "uid": "7d16802b-a492-4f0b-a7ca-ba167d635837/56",
+                "seq_nums": {
+                    "start": 57,
+                    "stop": 58
+                },
+                "indices": {
+                    "start": 56,
+                    "stop": 57
+                },
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "event",
+            "doc": {
+                "uid": "a99c3f8a-3722-485c-8344-62d5be4b9602",
+                "time": 1744022541.487658,
+                "data": {},
+                "timestamps": {},
+                "seq_num": 57,
+                "filled": {},
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "stream_datum",
+            "doc": {
+                "stream_resource": "7d16802b-a492-4f0b-a7ca-ba167d635837",
+                "uid": "7d16802b-a492-4f0b-a7ca-ba167d635837/57",
+                "seq_nums": {
+                    "start": 58,
+                    "stop": 59
+                },
+                "indices": {
+                    "start": 57,
+                    "stop": 58
+                },
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "event",
+            "doc": {
+                "uid": "eba3b015-d712-4de0-a381-a49d1e4ec067",
+                "time": 1744022543.4429314,
+                "data": {},
+                "timestamps": {},
+                "seq_num": 58,
+                "filled": {},
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "stream_datum",
+            "doc": {
+                "stream_resource": "7d16802b-a492-4f0b-a7ca-ba167d635837",
+                "uid": "7d16802b-a492-4f0b-a7ca-ba167d635837/58",
+                "seq_nums": {
+                    "start": 59,
+                    "stop": 60
+                },
+                "indices": {
+                    "start": 58,
+                    "stop": 59
+                },
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "event",
+            "doc": {
+                "uid": "f718f277-f456-415e-934e-48baf3a75261",
+                "time": 1744022545.289714,
+                "data": {},
+                "timestamps": {},
+                "seq_num": 59,
+                "filled": {},
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "stream_datum",
+            "doc": {
+                "stream_resource": "7d16802b-a492-4f0b-a7ca-ba167d635837",
+                "uid": "7d16802b-a492-4f0b-a7ca-ba167d635837/59",
+                "seq_nums": {
+                    "start": 60,
+                    "stop": 61
+                },
+                "indices": {
+                    "start": 59,
+                    "stop": 60
+                },
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "event",
+            "doc": {
+                "uid": "eb2058a7-bada-4cd3-943a-79a26c26fc68",
+                "time": 1744022546.605059,
+                "data": {},
+                "timestamps": {},
+                "seq_num": 60,
+                "filled": {},
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "stream_datum",
+            "doc": {
+                "stream_resource": "7d16802b-a492-4f0b-a7ca-ba167d635837",
+                "uid": "7d16802b-a492-4f0b-a7ca-ba167d635837/60",
+                "seq_nums": {
+                    "start": 61,
+                    "stop": 62
+                },
+                "indices": {
+                    "start": 60,
+                    "stop": 61
+                },
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "event",
+            "doc": {
+                "uid": "f67112be-4f60-4d36-84dc-23e8a52addd7",
+                "time": 1744022547.9219356,
+                "data": {},
+                "timestamps": {},
+                "seq_num": 61,
+                "filled": {},
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "stream_datum",
+            "doc": {
+                "stream_resource": "7d16802b-a492-4f0b-a7ca-ba167d635837",
+                "uid": "7d16802b-a492-4f0b-a7ca-ba167d635837/61",
+                "seq_nums": {
+                    "start": 62,
+                    "stop": 63
+                },
+                "indices": {
+                    "start": 61,
+                    "stop": 62
+                },
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "event",
+            "doc": {
+                "uid": "90c60670-6ee1-4b88-9623-09eec293870c",
+                "time": 1744022549.2423482,
+                "data": {},
+                "timestamps": {},
+                "seq_num": 62,
+                "filled": {},
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "stream_datum",
+            "doc": {
+                "stream_resource": "7d16802b-a492-4f0b-a7ca-ba167d635837",
+                "uid": "7d16802b-a492-4f0b-a7ca-ba167d635837/62",
+                "seq_nums": {
+                    "start": 63,
+                    "stop": 64
+                },
+                "indices": {
+                    "start": 62,
+                    "stop": 63
+                },
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "event",
+            "doc": {
+                "uid": "1eb46cd4-c04d-42bb-b295-61894dc10959",
+                "time": 1744022551.198466,
+                "data": {},
+                "timestamps": {},
+                "seq_num": 63,
+                "filled": {},
+                "descriptor": "116a84db-ccb2-4382-8fba-10987fc350c0"
+            }
+        },
+        {
+            "name": "stop",
+            "doc": {
+                "uid": "a1615c81-8902-4b33-9751-179eece51bd4",
+                "time": 1744022551.1990678,
+                "run_start": "69d9f931-f352-4bd3-91dd-a5704f6079c3",
+                "exit_status": "success",
+                "reason": "",
+                "num_events": {
+                    "primary": 63
+                }
+            }
+        },
+        {
+            "state": "IDLE",
+            "task_status": {
+                "task_id": "4e77649d-564a-4ea7-b4bb-26b3fe9c048e",
+                "task_complete": false,
+                "task_failed": false
+            },
+            "errors": [],
+            "warnings": []
+        },
+        {
+            "state": "IDLE",
+            "task_status": {
+                "task_id": "4e77649d-564a-4ea7-b4bb-26b3fe9c048e",
+                "task_complete": true,
+                "task_failed": false
+            },
+            "errors": [],
+            "warnings": []
+        }
+    ]
+}
