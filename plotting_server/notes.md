@@ -105,4 +105,26 @@ call a reading library with stream resource
 
 started with simple data streaming numpy arrays .
 
+https://docs.h5py.org/en/latest/swmr.html
+
+```python
+import h5py
+
+f = h5py.File("swmr.h5", "r", libver="latest", swmr=True)
+dset = f["data"]
+while True:
+    dset.id.refresh()
+    shape = dset.shape
+    print(shape)
+```
+
+
+also used an outdated 'pyinotify' library to watch for changes in the target file.
+Fortunately manta is an AravisDetector which supports swmr mode.
+The image 
+
+Then I tried the watchdog library, but looks like listening to bluesky events is a better solution for data update being at the right moment.
+
+Then iteration three was running segments from a dataset
+
 
