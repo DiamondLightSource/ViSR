@@ -128,3 +128,22 @@ Then I tried the watchdog library, but looks like listening to bluesky events is
 Then iteration three was running segments from a dataset
 
 
+This would likely be a standalone server, kind of like h5grove but more involved. This on its own requires a separate package with python copier template.
+
+The features desired there would be a synthesis of various ideas prototyped so far:
+- davidia ws for the data so that it can be displayed
+- fake data streaming as part of a scripts directory for testing, inside the src one? or to not export it to be honest
+- simple listener too just to listen to events 
+- using stateless setup with redis - like number 6
+- provide random data too at selected endpoints
+- provide simple listener - into websockets to stream just all events, and create a log. 
+- provide plan-specific listener that works in collaboration with 'launch demo' endpoint
+
+The only rejected feature would be the use of a watchdog / pyinotify UNLESS we want to preview all the hdf that happened in a directory, not just the new events. 
+
+the UI could like a websockets - to - file tree and then next the hdf tree for a selected file then finally on the right the panel with davidia visualization
+
+Let's for now do per-login data sessions with unique server-assigned IDs - anonymous sessions - however access only restricted to a directory defined in an environment variable.
+
+Need to make tags at api routes to group them.
+
