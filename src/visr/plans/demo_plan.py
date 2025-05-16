@@ -36,17 +36,6 @@ def demo_plan(
 ) -> MsgGenerator:
     detectors: set[StandardDetector] = {manta}
 
-    plan_args = {
-        "exposure": exposure,
-    }
-    _md = {
-        "detectors": {device.name for device in detectors},
-        "motors": {sample_stage.name},
-        "plan_args": plan_args,
-        "hints": {},
-    }
-    _md.update(metadata or {})
-
     devices: list[Device] = [*detectors, sample_stage]
 
     # this is for file writing
@@ -55,6 +44,15 @@ def demo_plan(
     spec: Spec[Movable] = Line(sample_stage.x, top_left[0], bottom_right[0], 7) * ~Line(
         sample_stage.y, top_left[1], bottom_right[1], 9
     )
+
+    _md = {
+        "detectors": {device.name for device in detectors},
+        "motors": {sample_stage.name},
+        "plan_args": {"exposure": exposure},
+        "shape": spec.shape,
+        "hints": {},
+    }
+    _md.update(metadata or {})
 
     @attach_data_session_metadata_decorator()
     @bpp.stage_decorator(devices)
