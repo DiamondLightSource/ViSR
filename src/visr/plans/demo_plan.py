@@ -1,8 +1,9 @@
 from pathlib import Path
-from typing import Any
+from typing import Any, TypedDict
 
 import bluesky.plan_stubs as bps
 import bluesky.preprocessors as bpp
+import numpy as np
 from bluesky.protocols import Movable
 from dodal.common import MsgGenerator, inject
 from dodal.devices.motors import XYZPositioner
@@ -20,12 +21,84 @@ ROOT_CONFIG_SAVES_DIR = Path(__file__).parent.parent.parent / "pvs" / "demo_plan
 # using snaked grid from the tutorial
 # https://blueskyproject.io/scanspec/main/tutorials/creating-a-spec.html#snaked-grid
 
-#  physically measured the data from here
+# physically measured the data from here
 # https://github.com/DiamondLightSource/ViSR/issues/4#issuecomment-2766099774
 # NOTE: y is inverted
 top_left = [-2, 3.7]
 bottom_right = [4.3, 7.2]
 STAGE_Z_CONSTANT = 0.01
+
+
+class SpectrumRangeError(ValueError):
+    pass
+
+
+class ColorSpectra(TypedDict):
+    red: tuple[float, float]
+    green: tuple[float, float]
+    blue: tuple[float, float]
+
+
+class SpectrumChecker:
+    def __init__(self, ranges: ColorSpectra):
+        self.ranges = ranges
+        self._validate_ranges()
+
+    def _validate_ranges(self) -> None:
+        # Extract ranges
+        red_start, red_stop = self.ranges["red"]
+        green_start, green_stop = self.ranges["green"]
+        blue_start, blue_stop = self.ranges["blue"]
+
+        # Ensure they are floats
+        if not all(
+            isinstance(x, float)
+            for x in [
+                red_start,
+                red_stop,
+                green_start,
+                green_stop,
+                blue_start,
+                blue_stop,
+            ]
+        ):
+            raise TypeError("All spectrum values must be floats.")
+
+        # Check for non-overlapping intervals
+        intervals = sorted(
+            [
+                (red_start, red_stop),
+                (green_start, green_stop),
+                (blue_start, blue_stop),
+            ]
+        )
+
+        for (start1, stop1), (start2, stop2) in zip(intervals, intervals[1:]):
+            if start2 < stop1:
+                raise SpectrumRangeError(
+                    f"Overlapping spectra: ({start1}, {stop1}) and ({start2}, {stop2})"
+                )
+
+    def __repr__(self):
+        return f"SpectrumChecker(ranges={self.ranges})"
+
+
+def spectrum_checker_from_bounds(start: float, stop: float) -> SpectrumChecker:
+    if not isinstance(start, float) or not isinstance(stop, float):
+        raise TypeError("start and stop must be floats.")
+    if start >= stop:
+        raise ValueError(f"start ({start}) must be less than stop ({stop})")
+    # Divide into 10 equal parts
+    points = np.linspace(start, stop, 11)
+    ranges = ColorSpectra(
+        red=(points[2], points[3]),
+        green=(points[5], points[6]),
+        blue=(points[8], points[9]),
+    )
+    return SpectrumChecker(ranges)
+
+
+VISR_RGB = spectrum_checker_from_bounds(top_left[0], bottom_right[0])
 
 
 def demo_plan(
@@ -50,6 +123,7 @@ def demo_plan(
         "motors": {sample_stage.name},
         "plan_args": {"exposure": exposure},
         "shape": spec.shape,
+        "color_rois": VISR_RGB.ranges,
         "hints": {},
     }
     _md.update(metadata or {})
