@@ -24,8 +24,8 @@ ROOT_CONFIG_SAVES_DIR = Path(__file__).parent.parent.parent / "pvs" / "demo_plan
 # physically measured the data from here
 # https://github.com/DiamondLightSource/ViSR/issues/4#issuecomment-2766099774
 # NOTE: y is inverted
-top_left = [-2, 3.7]
-bottom_right = [4.3, 7.2]
+top_left = (-2, 3.7)
+bottom_right = (4.3, 7.2)
 STAGE_Z_CONSTANT = 0.01
 
 
@@ -73,7 +73,9 @@ class SpectrumChecker:
             ]
         )
 
-        for (start1, stop1), (start2, stop2) in zip(intervals, intervals[1:]):
+        for (start1, stop1), (start2, stop2) in zip(
+            intervals, intervals[1:], strict=False
+        ):
             if start2 < stop1:
                 raise SpectrumRangeError(
                     f"Overlapping spectra: ({start1}, {stop1}) and ({start2}, {stop2})"
@@ -133,7 +135,8 @@ def demo_plan(
     @bpp.run_decorator(md=_md)
     def inner_plan():
         yield from bps.abs_set(sample_stage.z, STAGE_Z_CONSTANT)
-        yield from bps.prepare(manta, TriggerInfo(livetime=0.2, number_of_triggers=1))
+        # yield from bps.prepare(manta, TriggerInfo(livetime=0.2, number_of_triggers=1))
+        yield from bps.prepare(manta, TriggerInfo(livetime=0.2, number_of_events=1))
         for d in spec.midpoints():
             new_x = d.get(sample_stage.x)
             new_y = d.get(sample_stage.y)
