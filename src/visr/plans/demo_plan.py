@@ -24,7 +24,7 @@ ROOT_CONFIG_SAVES_DIR = Path(__file__).parent.parent.parent / "pvs" / "demo_plan
 # physically measured the data from here
 # https://github.com/DiamondLightSource/ViSR/issues/4#issuecomment-2766099774
 # NOTE: y is inverted
-top_left = (-2, 3.7)
+top_left = (-2.0, 3.7)
 bottom_right = (4.3, 7.2)
 STAGE_Z_CONSTANT = 0.01
 
@@ -86,8 +86,8 @@ class SpectrumChecker:
 
 
 def spectrum_checker_from_bounds(start: float, stop: float) -> SpectrumChecker:
-    if not isinstance(start, float) or not isinstance(stop, float):
-        raise TypeError("start and stop must be floats.")
+    if not isinstance(start, float | int) or not isinstance(stop, float | int):
+        raise TypeError("start and stop must be float or int.")
     if start >= stop:
         raise ValueError(f"start ({start}) must be less than stop ({stop})")
     # Divide into 10 equal parts
@@ -108,6 +108,7 @@ def demo_plan(
     exposure: float = 1.0,
     sample_stage: XYZPositioner = DEFAULT_MOTOR,
     metadata: dict[str, Any] | None = None,
+    fast: bool = False,
 ) -> MsgGenerator:
     detectors: set[StandardDetector] = {manta}
 
@@ -119,6 +120,10 @@ def demo_plan(
     spec: Spec[Movable] = Line(sample_stage.x, top_left[0], bottom_right[0], 7) * ~Line(
         sample_stage.y, top_left[1], bottom_right[1], 9
     )
+    if fast:
+        spec = Line(sample_stage.x, top_left[0], bottom_right[0], 5) * ~Line(
+            sample_stage.y, top_left[1], bottom_right[1], 7
+        )
 
     _md = {
         "detectors": {device.name for device in detectors},
