@@ -1,5 +1,6 @@
+from dataclasses import asdict, dataclass
 from pathlib import Path
-from typing import Any, TypedDict
+from typing import Any
 
 import bluesky.plan_stubs as bps
 import bluesky.preprocessors as bpp
@@ -33,7 +34,8 @@ class SpectrumRangeError(ValueError):
     pass
 
 
-class ColorSpectra(TypedDict):
+@dataclass
+class ColorSpectra:
     red: tuple[float, float]
     green: tuple[float, float]
     blue: tuple[float, float]
@@ -46,9 +48,9 @@ class SpectrumChecker:
 
     def _validate_ranges(self) -> None:
         # Extract ranges
-        red_start, red_stop = self.ranges["red"]
-        green_start, green_stop = self.ranges["green"]
-        blue_start, blue_stop = self.ranges["blue"]
+        red_start, red_stop = self.ranges.red
+        green_start, green_stop = self.ranges.green
+        blue_start, blue_stop = self.ranges.blue
 
         # Ensure they are floats
         if not all(
@@ -125,21 +127,29 @@ def demo_plan(
             sample_stage.y, top_left[1], bottom_right[1], 7
         )
 
+    s = spec.shape
+    print(f"spec shape: {s}")
+    shape: tuple[int, ...] = spec.shape()
     _md = {
         "detectors": {device.name for device in detectors},
         "motors": {sample_stage.name},
         "plan_args": {"exposure": exposure},
-        "shape": spec.shape,
-        "color_rois": VISR_RGB.ranges,
+        "shape": shape,
+        "color_rois": asdict(VISR_RGB.ranges),
         "hints": {},
     }
     _md.update(metadata or {})
 
-    @attach_data_session_metadata_decorator()
-    @bpp.stage_decorator(devices)
+    print(f"before the decorator is read")
+
     @bpp.run_decorator(md=_md)
+    @bpp.stage_decorator(devices)
+    @attach_data_session_metadata_decorator()
     def inner_plan():
+        print(f"decorator is read now")
+        # raise Exception("new plan is read out correctly")
         yield from bps.abs_set(sample_stage.z, STAGE_Z_CONSTANT)
+
         # yield from bps.prepare(manta, TriggerInfo(livetime=0.2, number_of_triggers=1))
         yield from bps.prepare(manta, TriggerInfo(livetime=0.2, number_of_events=1))
         for d in spec.midpoints():
